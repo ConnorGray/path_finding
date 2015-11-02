@@ -5,5 +5,8 @@ abstract class Graph {
 
   double distance(Node n1, Node n2);
 
+  bool containsPoint(Point point);
+  bool containsNode(Node node);
+
   List<Node> get allNodes;
 }

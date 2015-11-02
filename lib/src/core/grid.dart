@@ -27,7 +27,8 @@ class Grid extends Graph {
       List<Node> nodeRow = new List<Node>();
 
       for (int x = 0; x < boolGrid[y].length; x++) {
-        nodeRow.add(new Node(boolGrid[y][x], new Point(x, y)));
+        Node node = new Node(new Point(x, y))..walkable = boolGrid[y][x];
+        nodeRow.add(node);
       }
 
       nodeGrid.add(nodeRow); 
@@ -92,7 +93,7 @@ class Grid extends Graph {
         }
 
         Point possibleNeighborPoint = new Point(node.location.x + xOffset, node.location.y + yOffset);
-        if (_isInsideGrid(possibleNeighborPoint)) {
+        if (this.containsPoint(possibleNeighborPoint)) {
           Node neighbor = this.grid[possibleNeighborPoint.y][possibleNeighborPoint.x];
           if (onlyWalkable) {
             if (neighbor.walkable) {
@@ -142,14 +143,14 @@ class Grid extends Graph {
     Point top    = new Point(node.location.x, node.location.y - 1);
     Point bottom = new Point(node.location.x, node.location.y + 1);
 
-    if (_isInsideGrid(left)) {
+    if (this.containsPoint(left)) {
       if (!this.grid[left.y][left.x].walkable) {
         corners.remove(top_left);
         corners.remove(bottom_left);
       }
     }
 
-    if (_isInsideGrid(right)) {
+    if (this.containsPoint(right)) {
       if (!this.grid[right.y][left.x].walkable) {
         corners.remove(top_right);
         corners.remove(bottom_right);
@@ -160,14 +161,14 @@ class Grid extends Graph {
       return [];
     }
 
-    if (_isInsideGrid(top)) {
+    if (this.containsPoint(top)) {
       if (!this.grid[top.y][top.x].walkable) {
         corners.remove(top_left);
         corners.remove(top_right);
       }
     }
 
-    if (_isInsideGrid(bottom)) {
+    if (this.containsPoint(bottom)) {
       if (!this.grid[bottom.y][bottom.x].walkable) {
         corners.remove(bottom_left);
         corners.remove(bottom_right);
@@ -181,7 +182,7 @@ class Grid extends Graph {
     List<Node> exteriorCorners = new List<Node>();
 
     for (Point corner in corners) {
-      if (_isInsideGrid(corner)) {
+      if (this.containsPoint(corner)) {
         Node node = this.grid[corner.y][corner.x];
         if (node.walkable) {
           exteriorCorners.add(node);
@@ -192,7 +193,7 @@ class Grid extends Graph {
     return exteriorCorners;
   }
 
-  bool _isInsideGrid(Point point) {
+  bool containsPoint(Point point) {
     if (point.x < 0 || point.y < 0) {
       return false;
     }
@@ -201,6 +202,10 @@ class Grid extends Graph {
     }
 
     return true;
+  }
+
+  bool containsNode(Node node) {
+    return this.containsPoint(node.location);
   }
 
   /**
