@@ -208,6 +208,13 @@ class Grid extends Graph {
     return this.containsPoint(node.location);
   }
 
+  Node nodeFromPoint(Point point) {
+    if (!this.containsPoint(point)) {
+      throw new ArgumentError('This graph does not contain that point!');
+    }
+    return this.grid[point.y][point.x];
+  }
+
   /**
    * Check whether or not the 2-dimensional List grid is rectangular.
    */

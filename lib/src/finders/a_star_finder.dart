@@ -7,15 +7,18 @@ class AStarFinder extends Finder {
    * Based on the pseudocode example found at
    * http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
    */
-  List<Node> pathFind(Node start, Node goal) {
+  List<Point> pathFind(Point startPoint, Point goalPoint) {
+    Node start = this.graph.nodeFromPoint(startPoint);
+    Node goal = this.graph.nodeFromPoint(goalPoint);
+
     Set<Node> Closed = new Set<Node>();
     Set<Node> Open = new Set<Node>()..add(start);
 
     Map<Node, Node> Came_From = new Map<Node, Node>();
 
     for (Node node in this.graph.allNodes) {
-      node.f = double.INFINITY;
       node.g = double.INFINITY;
+      node.f = double.INFINITY;
     }
 
     start.g = 0.0;
@@ -58,14 +61,14 @@ class AStarFinder extends Finder {
     return []; 
   }
 
-  List<Node> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
-    List<Node> totalPath = [current];
+  List<Point> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
+    List<Point> totalPath = [current.location];
 
-    for (current in Came_From.keys) {
+    while (Came_From.keys.contains(current)) {
       current = Came_From[current];
-      totalPath.add(current);
+      totalPath.add(current.location);
     }
 
-    return totalPath;
+    return totalPath.reversed.toList();
   }
 }

@@ -5,5 +5,5 @@ abstract class Finder {
 
   Finder(this.graph);
 
-  List<Node> pathFind(Node start, Node goal);
+  List<Point> pathFind(Point start, Point goal);
 }
