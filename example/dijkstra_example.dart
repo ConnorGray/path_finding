@@ -1,0 +1,21 @@
+import 'package:path_finding/path_finding.dart';
+import 'dart:math' show Point;
+
+void main() {
+  List<List<bool>> boolGrid = [
+    [true,  true,   false, true],
+    [true,  false,  false, true],
+    [false, true,   true,  true]
+  ];
+
+  Grid grid = new Grid.fromBools(boolGrid);
+  grid.allowDiagonals = true;
+
+  DijkstraFinder dijkstraFinder = new DijkstraFinder(grid);
+
+  List<Point> path = dijkstraFinder.pathFind(new Point(0, 0), new Point(3, 0));
+
+  for (Point point in path) {
+    print(point);
+  }
+}

@@ -4,7 +4,14 @@ class Node {
   final Point location;
 
   bool walkable;
+
+  // Used by:
+  //   - A*
+  //   - Dijkstra
   double f;
+
+  // Used by:
+  //   - A*
   double g;
 
   String toString() => '[$walkable $location]';

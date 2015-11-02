@@ -4,19 +4,19 @@ import 'package:path_finding/path_finding.dart';
 import 'dart:math' show Point;
 
 void main() {
-  final List<List<bool>> boolGrid = [
-    [true, true, false, false, true],
-    [true, true, true, false, true],
-    [false, false, true, false, true],
-    [false, false, true, false, true],
-    [false, false, true, true, true]];
+  final List<List<bool>> boolGrid = new List<List<bool>>()
+    ..add([true, true, false, false, true])
+    ..add([true, true, true, false, true])
+    ..add([false, false, true, false, true])
+    ..add([false, false, true, false, true])
+    ..add([false, false, true, true, true]);
 
-  final List<List<bool>> invalidBoolGrid = [
-    [true, true, false, false, true],
-    [true, true, true, false, true],
-    [false, false, true, false, true],
-    [false, false, true, false, true],
-    [false, false, true, true]];
+  final List<List<bool>> invalidBoolGrid = new List<List<bool>>()
+    ..add([true, true, false, false, true])
+    ..add([true, true, true, false, true])
+    ..add([false, false, true, false, true])
+    ..add([false, false, true, false, true])
+    ..add([false, false, true, true]);
 
   final String stringGrid = """
 ooxoo
@@ -42,10 +42,7 @@ xxxoo
 
   test("Grid default constructor errors on invalid argument types.", () {
     throwsError() {
-      print('----------------------');
       Grid grid = new Grid(boolGrid);
-      print(grid.grid.runtimeType);
-      print('----------------------');
     }
 
     expect(throwsError, throwsA(new isInstanceOf<TypeError>()));
@@ -85,14 +82,6 @@ xxxoo
   });
 
   test("Grid rows and cols properties are accurate.", () {
-    String stringGrid =
-      """
-ooxoo
-xoxoo
-xooox
-xxxoo
-""";
-
     Grid grid = new Grid.fromString(stringGrid);
 
     expect(grid.rows, equals(4));
@@ -103,11 +92,11 @@ xxxoo
     Grid grid = new Grid.fromBools(boolGrid);
 
     Set<Node> expectedNeighbors = new Set<Node>()
-      ..add(new Node(true, new Point(0, 1)))
-      ..add(new Node(true, new Point(1, 0)))
-      ..add(new Node(true, new Point(1, 1)));
+      ..add(new Node(new Point(0, 1)))
+      ..add(new Node(new Point(1, 0)))
+      ..add(new Node(new Point(1, 1)));
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(true, new Point(0, 0))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(0, 0))).toSet();
 
     expect(expectedNeighbors, equals(actualNeighbors));
   });
