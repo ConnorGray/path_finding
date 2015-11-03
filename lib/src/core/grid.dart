@@ -16,7 +16,7 @@ class Grid extends Graph {
   /* These variable effect how the Grid.getNeighbors method 
    * decides which nodes to return.
    */
-  DiagonalMovement diagonalMovement = DiagonalMovement.WithOneObstruction;
+  DiagonalMovement diagonalMovement = DiagonalMovement.Always;
 
   Grid(List<List<bool>> boolGrid) {
     if (boolGrid is! List<List<bool>>) {
@@ -79,15 +79,46 @@ class Grid extends Graph {
   List<Node> getNeighbors(Node node, {bool onlyWalkable: true}) {
     List<Node> neighbors = new List<Node>();
 
-    neighbors.addAll(this.getSides(node, onlyWalkable));
+    neighbors.addAll(this._getSides(node, onlyWalkable));
     if (this.diagonalMovement != DiagonalMovement.Never) {
-      neighbors.addAll(this.getCorners(node, onlyWalkable));
+      neighbors.addAll(this._getCorners(node, onlyWalkable));
     }
 
     return neighbors;
   }
 
-  List<Node> nodesFromOffsets(Node node, List<Point> offsets, bool onlyWalkable) {
+  double distance(Node n1, Node n2) {
+    return n1.location.distanceTo(n2.location);
+  }
+
+  List<Node> get allNodes {
+    List<Node> nodes = new List<Node>();
+
+    for (List<Node> nodeRow in this._grid) {
+      for (Node node in nodeRow) {
+        nodes.add(node);
+      }
+    }
+
+    return nodes;
+  }
+
+  bool containsPoint(Point point) {
+    return point.x >= 0 && point.y >= 0 && point.x < this.cols && point.y < this.rows;
+  }
+
+  bool containsNode(Node node) {
+    return this.containsPoint(node.location);
+  }
+
+  Node nodeFromPoint(Point point) {
+    if (!this.containsPoint(point)) {
+      throw new ArgumentError('This Grid does not contain the point: $point');
+    }
+    return this._grid[point.y][point.x];
+  }
+
+  List<Node> _nodesFromOffsets(Node node, List<Point> offsets, bool onlyWalkable) {
     List<Node> offsetNodes = new List<Node>();
 
     for (Point offset in offsets) {
@@ -107,20 +138,20 @@ class Grid extends Graph {
     return offsetNodes;
   }
 
-  List<Node> getCorners(Node node, bool onlyWalkable) {
+  List<Node> _getCorners(Node node, bool onlyWalkable) {
     List<Point> offsets = const [
       const Point(-1, -1), const Point(1, -1),
       const Point(-1, 1), const Point(1, 1)];
 
-    List<Node> allCorners = this.nodesFromOffsets(node, offsets, onlyWalkable);
+    List<Node> allCorners = this._nodesFromOffsets(node, offsets, onlyWalkable);
     List<Node> allowedCorners = new List<Node>();
 
     for (Node corner in allCorners) {
       int xOffset = corner.location.x - node.location.x;
       int yOffset = corner.location.y - node.location.y; 
 
-      Point xDiffSidePoint = new Point(corner.location.x + xOffset, corner.location.y); 
-      Point yDiffSidePoint = new Point(corner.location.x, corner.location.y + yOffset);
+      Point xDiffSidePoint = new Point(corner.location.x - xOffset, corner.location.y); 
+      Point yDiffSidePoint = new Point(corner.location.x, corner.location.y - yOffset);
 
       int numObstructions = 0;
 
@@ -160,43 +191,12 @@ class Grid extends Graph {
     return allowedCorners;
   }
 
-  List<Node> getSides(Node node, bool onlyWalkable) {
+  List<Node> _getSides(Node node, bool onlyWalkable) {
     List<Point> offsets = const [
       const Point(-1, 0), const Point(1, 0),
       const Point(0, -1), const Point(0, 1)];
 
-    return this.nodesFromOffsets(node, offsets, onlyWalkable);
-  }
-
-  double distance(Node n1, Node n2) {
-    return n1.location.distanceTo(n2.location);
-  }
-
-  List<Node> get allNodes {
-    List<Node> nodes = new List<Node>();
-
-    for (List<Node> nodeRow in this._grid) {
-      for (Node node in nodeRow) {
-        nodes.add(node);
-      }
-    }
-
-    return nodes;
-  }
-
-  bool containsPoint(Point point) {
-    return point.x >= 0 && point.y >= 0 && point.x < this.cols && point.y < this.rows;
-  }
-
-  bool containsNode(Node node) {
-    return this.containsPoint(node.location);
-  }
-
-  Node nodeFromPoint(Point point) {
-    if (!this.containsPoint(point)) {
-      throw new ArgumentError('This Grid does not contain the point: $point');
-    }
-    return this._grid[point.y][point.x];
+    return this._nodesFromOffsets(node, offsets, onlyWalkable);
   }
 
   /**

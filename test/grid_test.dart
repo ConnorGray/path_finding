@@ -18,6 +18,12 @@ void main() {
     ..add([false, false, true, false, true])
     ..add([false, false, true, true]);
 
+  final List<List<bool>> diagonalMovementTestCasesBoolGrid = [
+    [true,  true,  true], // Top Left: 1 obstructions Top Right: 1 obstruction
+    [false, true,  true], 
+    [true,  false, false] // Bottom Left: 2 obstructions
+  ];
+
   final String rectangularStringGrid = """
 ooxoo
 xoxoo
@@ -78,20 +84,69 @@ xxxoo
     expect(grid.cols, equals(5));
   });
 
-  test("Grid.getNeighbors method works.", () {
-    Grid grid = new Grid(rectangularBoolGrid);
+  test("Grid.getNeighbors with DiagonalMovement.Always works.", () {
+    Grid grid = new Grid(diagonalMovementTestCasesBoolGrid);
+    grid.diagonalMovement = DiagonalMovement.Always;
 
-    Set<Node> expectedNeighbors = new Set<Node>()
-      ..add(new Node(new Point(0, 1)))
-      ..add(new Node(new Point(1, 0)))
-      ..add(new Node(new Point(1, 1)));
+    Set<Node> expectedNeighbors = [
+      new Node(new Point(0, 0)),
+      new Node(new Point(1, 0)),
+      new Node(new Point(2, 0)),
+      new Node(new Point(2, 1)),
+      new Node(new Point(0, 2))
+    ].toSet();
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(0, 0))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
 
-    expect(expectedNeighbors, equals(actualNeighbors));
+    expect(actualNeighbors, equals(expectedNeighbors));
   });
 
-  test("Grid.exteriorCorners method works.", () {
+  test("Grid.getNeighbors with DiagonalMovement.Never works.", () {
+    Grid grid = new Grid(diagonalMovementTestCasesBoolGrid);
+    grid.diagonalMovement = DiagonalMovement.Never;
 
+    Set<Node> expectedNeighbors = [
+      new Node(new Point(1, 0)),
+      new Node(new Point(2, 1))
+    ].toSet();
+
+    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+
+    expect(actualNeighbors, equals(expectedNeighbors));
   });
+
+  test("Grid.getNeighbors with DiagonalMovement.WithNoObstructions works.", () {
+    Grid grid = new Grid(diagonalMovementTestCasesBoolGrid);
+    grid.diagonalMovement = DiagonalMovement.WithNoObstructions;
+
+    Set<Node> expectedNeighbors = [
+      new Node(new Point(2, 0)),
+      new Node(new Point(1, 0)),
+      new Node(new Point(2, 1))
+    ].toSet();
+
+    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+
+    expect(actualNeighbors, equals(expectedNeighbors));
+  });
+
+  test("Grid.getNeighbors with DiagonalMovement.WithOneObstruction works.", () {
+    Grid grid = new Grid(diagonalMovementTestCasesBoolGrid);
+    grid.diagonalMovement = DiagonalMovement.WithOneObstruction;
+
+    Set<Node> expectedNeighbors = [
+      new Node(new Point(0, 0)),
+      new Node(new Point(2, 0)),
+      new Node(new Point(1, 0)),
+      new Node(new Point(2, 1))
+    ].toSet();
+
+    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+
+    expect(actualNeighbors, equals(expectedNeighbors));
+  });
+
+  // test("Grid.exteriorCorners method works.", () {
+
+  // });
 }
