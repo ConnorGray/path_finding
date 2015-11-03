@@ -4,7 +4,7 @@ class AStarFinder extends Finder {
   AStarFinder(Graph graph) : super(graph);
 
   /**
-   * Based on the pseudocode example found at
+   * Based on the pseudocode example found at:
    * http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
    */
   List<Point> pathFind(Point startPoint, Point goalPoint) {
