@@ -1,17 +1,23 @@
 part of path_finding;
 
 class Node {
+  /// The location of this node on the 2 dimentional cartesian plane.
   final Point location;
 
+  /// Whether or not a path can go through this node.
   bool walkable;
 
-  // Used by:
-  //   - A*
-  //   - Dijkstra
+  /// Temporary value used by the Finder's.
+  ///
+  /// Used by:
+  ///   - A*
+  ///   - Dijkstra
   double f;
 
-  // Used by:
-  //   - A*
+  /// Temporary value used by the Finder's.
+  ///
+  /// Used by:
+  ///   - A*
   double g;
 
   String toString() => '[$walkable $location]';

@@ -1,12 +1,12 @@
 part of path_finding;
 
+/// An implementation Dijkstra's pathfinding algorithm.
+///
+/// Based on the description of the algorithm found at:
+/// http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Algorithm
 class DijkstraFinder extends Finder {
   DijkstraFinder(Graph graph) : super(graph);
 
-  /**
-   * Based on the description of the algorithm found at:
-   * http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Algorithm
-   */
   List<Point> pathFind(Point startPoint, Point goalPoint) {
     Node start = this.graph.nodeFromPoint(startPoint);
     Node goal = this.graph.nodeFromPoint(goalPoint);
