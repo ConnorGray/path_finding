@@ -20,7 +20,7 @@ class DijkstraFinder extends Finder {
     current.f = 0.0;
 
     while (Unvisited.isNotEmpty) {
-      for (Node neighbor in this.graph.getNeighbors(current)) {
+      for (Node neighbor in this.graph.getNeighbors(current, onlyWalkable: true)) {
         if (!Unvisited.contains(neighbor)) {
           continue;
         }

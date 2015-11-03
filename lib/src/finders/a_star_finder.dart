@@ -39,7 +39,7 @@ class AStarFinder extends Finder {
       Open.remove(current);
       Closed.add(current);
 
-      for (Node neighbor in this.graph.getNeighbors(current)) {
+      for (Node neighbor in this.graph.getNeighbors(current, onlyWalkable: true)) {
         if (Closed.contains(neighbor)) {
           continue;
         } 

@@ -84,9 +84,9 @@ class Grid extends Graph {
           continue;
         }
 
-        Point possibleNeighborPoint = new Point(node.location.x + xOffset, node.location.y + yOffset);
-        if (this.containsPoint(possibleNeighborPoint)) {
-          Node neighbor = this._grid[possibleNeighborPoint.y][possibleNeighborPoint.x];
+        Point neighborPoint = new Point(node.location.x + xOffset, node.location.y + yOffset);
+        if (this.containsPoint(neighborPoint)) {
+          Node neighbor = this.nodeFromPoint(neighborPoint);
           if (onlyWalkable) {
             if (neighbor.walkable) {
               neighbors.add(neighbor);
