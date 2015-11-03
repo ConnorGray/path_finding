@@ -6,14 +6,16 @@ part of path_finding;
 ///
 /// Given a boolean grid and a [centerNode] at (1, 1):
 ///
+///```
 ///       0       1       2
-///   -------------------------
+///   |-----------------------|
 /// 0 | true  | true  | true  |
-///   -------------------------
+///   |-----------------------|
 /// 1 | false | true  | true  |
-///   -------------------------
+///   |-----------------------|
 /// 2 | true  | false | false |
-///   -------------------------
+///   |-----------------------|
+///```
 ///
 /// Top Right (2, 0): 0 obstructions -> 
 /// Top Left  (0, 0): 1 obstructions -> (0, 1)
@@ -25,14 +27,14 @@ part of path_finding;
 /// For the different values of DiagonalMovement the results of
 /// Grid.getNeighbors(centerNode) are:
 ///
-/// case DiagonalMovement.Always:
-///   [(0, 0), (1, 0), (2, 0), (2, 1), (0, 2)]
-/// case DiagonalMovement.Never:
-///   [(1, 0), (2, 1)]
-/// case DiagonalMovement.WithNoObstructions:
-///   [(2, 0), (1, 0), (2, 1)]
-/// case DiagonalMovement.WithOneObstruction:
-///   [(0, 0), (2, 0), (1, 0), (2, 1)]
+/// case DiagonalMovement.Always:  
+///   [(0, 0), (1, 0), (2, 0), (2, 1), (0, 2)]  
+/// case DiagonalMovement.Never:  
+///   [(1, 0), (2, 1)]  
+/// case DiagonalMovement.WithNoObstructions:  
+///   [(2, 0), (1, 0), (2, 1)]  
+/// case DiagonalMovement.WithOneObstruction:  
+///   [(0, 0), (2, 0), (1, 0), (2, 1)]  
 enum DiagonalMovement {
   Always,
   Never,

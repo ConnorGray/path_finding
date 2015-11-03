@@ -2,7 +2,7 @@ part of path_finding;
 
 /// An implementation Dijkstra's pathfinding algorithm.
 ///
-/// Based on the description of the algorithm found at:
+/// Based on the description of the algorithm found at:  
 /// http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Algorithm
 class DijkstraFinder extends Finder {
   DijkstraFinder(Graph graph) : super(graph);

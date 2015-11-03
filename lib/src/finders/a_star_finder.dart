@@ -2,7 +2,7 @@ part of path_finding;
 
 /// An implementation of the A* pathfinding algorithm.
 ///
-/// Based on the pseudocode example found at:
+/// Based on the pseudocode example found at:  
 /// http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
 class AStarFinder extends Finder {
   AStarFinder(Graph graph) : super(graph);
