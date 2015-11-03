@@ -6,7 +6,7 @@ To use it in your project add
 ```
 path_finding: ">=0.2.0 <0.3.0"
 ```
-to your projects dependencies.
+to your pubspec.yaml under depencies.
 
 # Examples
 
