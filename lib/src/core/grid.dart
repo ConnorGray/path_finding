@@ -54,7 +54,7 @@ class Grid extends Graph {
 
   /// Initializes a Grid from a List<List<bool>>.
   ///
-  /// Throws an [ArugmentError] if the list is not a boolean matrix,
+  /// Throws an [ArgumentError] if the list is not a boolean matrix,
   /// or if the list is not a rectangular matrix (all rows the same length).
   Grid(List<List<bool>> boolGrid) {
     if (boolGrid is! List<List<bool>>) {
