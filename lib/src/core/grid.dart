@@ -27,6 +27,9 @@ class Grid extends Graph {
       List<Node> nodeRow = new List<Node>();
 
       for (int x = 0; x < boolGrid[y].length; x++) {
+        if (boolGrid[y][x] is! bool) {
+          throw new TypeError('Grid rows must contain only booleans!');
+        }
         Node node = new Node(new Point(x, y))..walkable = boolGrid[y][x];
         nodeRow.add(node);
       }
