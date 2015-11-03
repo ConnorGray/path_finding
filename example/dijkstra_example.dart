@@ -3,13 +3,13 @@ import 'dart:math' show Point;
 
 void main() {
   List<List<bool>> boolGrid = [
-    [true,  true,   false, true],
-    [true,  false,  false, true],
-    [false, true,   true,  true]
+    [true,  false, false, true],
+    [true,  true,  false, true],
+    [false, true,  true,  true]
   ];
 
   Grid grid = new Grid.fromBools(boolGrid);
-  grid.allowDiagonals = true;
+  grid.allowDiagonals = false;
 
   DijkstraFinder dijkstraFinder = new DijkstraFinder(grid);
 
@@ -17,5 +17,11 @@ void main() {
 
   for (Point point in path) {
     print(point);
+  }
+
+
+  if (condition) {
+    i = 5;
+    j = 6;
   }
 }

@@ -39,17 +39,15 @@ class DijkstraFinder extends Finder {
         return _reconstruct_path(Came_From, current);
       } 
 
-      double smallestUnvisitedDistance = double.INFINITY;
-      Node nodeWithSmallestDistance;
+      Node nodeWithSmallestDistance = Unvisited.first;
       for (Node node in Unvisited) {
-        if (node.f < smallestUnvisitedDistance) {
-          smallestUnvisitedDistance = node.f;
+        if (node.f < nodeWithSmallestDistance.f) {
           nodeWithSmallestDistance = node;
         }
       }
 
-      // No connection between start and goal nodes.
-      if (smallestUnvisitedDistance == double.INFINITY) {
+      // No connection between start and goal nodes exists.
+      if (nodeWithSmallestDistance.f == double.INFINITY) {
         return [];
       }
 
@@ -67,7 +65,6 @@ class DijkstraFinder extends Finder {
       totalPath.add(current.location);
     }
 
-    return totalPath.reversed;
+    return totalPath.reversed.toList();
   }
-
 }
