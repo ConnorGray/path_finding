@@ -10,15 +10,15 @@ class Grid extends Graph {
 
   Grid(List<List<Node>> nodeGrid) : grid = nodeGrid {
     if (!(this.grid is List<List<Node>>)) {
-      throw new TypeError();
+      throw new ArgumentError('Argument `boolGrid` must be of type List<List<Node>>!');
     } else if (!_isRectangular(this.grid)) {
       throw new ArgumentError('Grid must be rectangular!');
     }
   }
 
   factory Grid.fromBools(List<List<bool>> boolGrid) {
-    if (!(boolGrid is List<List<bool>>)) {
-      throw new TypeError();
+    if (boolGrid is! List<List<bool>>) {
+      throw new ArgumentError('Argument `boolGrid` must be of type List<List<bool>>!');
     };
 
     List<List<Node>> nodeGrid = new List<List<Node>>();
@@ -28,7 +28,7 @@ class Grid extends Graph {
 
       for (int x = 0; x < boolGrid[y].length; x++) {
         if (boolGrid[y][x] is! bool) {
-          throw new TypeError('Grid rows must contain only booleans!');
+          throw new ArgumentError('Every element of `boolGrid` must be of type boolean!');
         }
         Node node = new Node(new Point(x, y))..walkable = boolGrid[y][x];
         nodeRow.add(node);
@@ -41,10 +41,10 @@ class Grid extends Graph {
   }
 
   factory Grid.fromString(String stringGrid) {
-    if (!(stringGrid is String)) {
-      throw new TypeError();
+    if (stringGrid is! String) {
+      throw new ArgumentError('Argument `stringGrid` must be of type String');
     } else if (stringGrid == "") {
-      throw new ArgumentError('String cannot be "" (empty)!');
+      throw new ArgumentError('Argument `stringGrid` cannot be "" (empty string)!');
     }
     stringGrid = stringGrid.trim();
 
