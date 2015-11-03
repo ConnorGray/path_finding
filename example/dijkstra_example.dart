@@ -18,10 +18,4 @@ void main() {
   for (Point point in path) {
     print(point);
   }
-
-
-  if (condition) {
-    i = 5;
-    j = 6;
-  }
 }
