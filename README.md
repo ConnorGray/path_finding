@@ -2,6 +2,12 @@
 A pathfinding library for Dart
 Find it on pub at https://pub.dartlang.org/packages/path_finding
 
+To use it in your project add
+```
+path_finding: ">=0.2.0 <0.3.0"
+```
+to your projects dependencies.
+
 # Examples
 
 ## A* Finder
