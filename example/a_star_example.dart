@@ -9,7 +9,7 @@ void main() {
   ];
 
   Grid grid = new Grid(boolGrid);
-  grid.allowDiagonals = false;
+  grid.diagonalMovement = DiagonalMovement.Never;
 
   AStarFinder aStarFinder = new AStarFinder(grid);
 

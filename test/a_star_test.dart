@@ -32,7 +32,7 @@ void main() {
 
   test("AStarFinder finds correct non-diagonal path.", () {
     Grid grid = new Grid(boolGrid);
-    grid.allowDiagonals = false;
+    grid.diagonalMovement = DiagonalMovement.Never;
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
@@ -56,7 +56,7 @@ void main() {
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid works with diagonals.", () {
     Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
-    grid.allowDiagonals = true;
+    grid.diagonalMovement = DiagonalMovement.Always;
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
@@ -67,7 +67,7 @@ void main() {
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid does not work without diagonals.", () {
     Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
-    grid.allowDiagonals = false;
+    grid.diagonalMovement = DiagonalMovement.Never;
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
