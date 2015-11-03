@@ -21,7 +21,7 @@ void main() {
 
 
   test("DijkstraFinder finds correct diagonal path.", () {
-    Grid grid = new Grid.fromBools(boolGrid);
+    Grid grid = new Grid(boolGrid);
 
     DijkstraFinder aStarFinder = new DijkstraFinder(grid);
 
@@ -31,7 +31,7 @@ void main() {
   });
 
   test("DijkstraFinder finds correct non-diagonal path.", () {
-    Grid grid = new Grid.fromBools(boolGrid);
+    Grid grid = new Grid(boolGrid);
     grid.allowDiagonals = false;
 
     DijkstraFinder aStarFinder = new DijkstraFinder(grid);
@@ -45,7 +45,7 @@ void main() {
   });
 
   test("DijkstraFinder returns empty list when no path exists.", () {
-    Grid grid = new Grid.fromBools(noSolutionBoolGrid);
+    Grid grid = new Grid(noSolutionBoolGrid);
 
     DijkstraFinder aStarFinder = new DijkstraFinder(grid);
 
@@ -55,7 +55,7 @@ void main() {
   });
 
   test("DijkstraFinder on noSolutionWithoutDiagonalsBoolGrid works with diagonals.", () {
-    Grid grid = new Grid.fromBools(noSolutionWithoutDiagonalsBoolGrid);
+    Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
     grid.allowDiagonals = true;
 
     DijkstraFinder aStarFinder = new DijkstraFinder(grid);
@@ -66,7 +66,7 @@ void main() {
   });
 
   test("DijkstraFinder on noSolutionWithoutDiagonalsBoolGrid does not work without diagonals.", () {
-    Grid grid = new Grid.fromBools(noSolutionWithoutDiagonalsBoolGrid);
+    Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
     grid.allowDiagonals = false;
 
     DijkstraFinder aStarFinder = new DijkstraFinder(grid);

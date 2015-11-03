@@ -21,7 +21,7 @@ void main() {
 
 
   test("AStarFinder finds correct diagonal path.", () {
-    Grid grid = new Grid.fromBools(boolGrid);
+    Grid grid = new Grid(boolGrid);
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
@@ -31,7 +31,7 @@ void main() {
   });
 
   test("AStarFinder finds correct non-diagonal path.", () {
-    Grid grid = new Grid.fromBools(boolGrid);
+    Grid grid = new Grid(boolGrid);
     grid.allowDiagonals = false;
 
     AStarFinder aStarFinder = new AStarFinder(grid);
@@ -45,7 +45,7 @@ void main() {
   });
 
   test("AStarFinder returns empty list when no path exists.", () {
-    Grid grid = new Grid.fromBools(noSolutionBoolGrid);
+    Grid grid = new Grid(noSolutionBoolGrid);
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
@@ -55,7 +55,7 @@ void main() {
   });
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid works with diagonals.", () {
-    Grid grid = new Grid.fromBools(noSolutionWithoutDiagonalsBoolGrid);
+    Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
     grid.allowDiagonals = true;
 
     AStarFinder aStarFinder = new AStarFinder(grid);
@@ -66,7 +66,7 @@ void main() {
   });
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid does not work without diagonals.", () {
-    Grid grid = new Grid.fromBools(noSolutionWithoutDiagonalsBoolGrid);
+    Grid grid = new Grid(noSolutionWithoutDiagonalsBoolGrid);
     grid.allowDiagonals = false;
 
     AStarFinder aStarFinder = new AStarFinder(grid);

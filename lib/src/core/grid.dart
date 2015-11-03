@@ -1,27 +1,21 @@
 part of path_finding;
 
 class Grid extends Graph {
-  final List<List<Node>> grid;
+  final List<List<Node>> _grid = new List<List<Node>>();
 
-  int get rows => this.grid.length;
-  int get cols => this.grid.first.length;
+  int get rows => this._grid.length;
+  int get cols => this._grid.first.length;
 
   bool allowDiagonals = true;
 
-  Grid(List<List<Node>> nodeGrid) : grid = nodeGrid {
-    if (!(this.grid is List<List<Node>>)) {
-      throw new ArgumentError('Argument `boolGrid` must be of type List<List<Node>>!');
-    } else if (!_isRectangular(this.grid)) {
-      throw new ArgumentError('Grid must be rectangular!');
-    }
-  }
-
-  factory Grid.fromBools(List<List<bool>> boolGrid) {
+  Grid(List<List<bool>> boolGrid) {
     if (boolGrid is! List<List<bool>>) {
       throw new ArgumentError('Argument `boolGrid` must be of type List<List<bool>>!');
-    };
+    }
 
-    List<List<Node>> nodeGrid = new List<List<Node>>();
+    if (!_isRectangular(boolGrid)) {
+      throw new ArgumentError('Argument `boolGrid` must be a rectangular nested List!');
+    }
 
     for (int y = 0; y < boolGrid.length; y++) {
       List<Node> nodeRow = new List<Node>();
@@ -34,10 +28,8 @@ class Grid extends Graph {
         nodeRow.add(node);
       }
 
-      nodeGrid.add(nodeRow); 
+      this._grid.add(nodeRow); 
     }
-
-    return new Grid(nodeGrid);
   }
 
   factory Grid.fromString(String stringGrid) {
@@ -71,10 +63,10 @@ class Grid extends Graph {
       boolGrid.add(boolRow);
     }
 
-    return new Grid.fromBools(boolGrid);
+    return new Grid(boolGrid);
   }
 
-  List<Node> getNeighbors(Node node, {bool onlyWalkable: true}) {
+  List<Node> getNeighbors(Node node, {bool onlyWalkable: false}) {
     final List<int> offsets = [-1, 0, 1];
 
     List<Node> neighbors = new List<Node>();
@@ -82,22 +74,19 @@ class Grid extends Graph {
     for (int xOffset in offsets) {
       for (int yOffset in offsets) {
         if (!this.allowDiagonals) {
-          if (xOffset == yOffset) {
+          if (xOffset != 0 && yOffset != 0) {
             continue;
-          } else if (xOffset == -1 && yOffset == 1) {
-            continue;
-          } else if (xOffset == 1 && yOffset == -1) {
-            continue; 
           }
         }
 
+        // Don't add the middle node; you can't be a neighbor of yourself
         if (xOffset == 0 && yOffset == 0) {
           continue;
         }
 
         Point possibleNeighborPoint = new Point(node.location.x + xOffset, node.location.y + yOffset);
         if (this.containsPoint(possibleNeighborPoint)) {
-          Node neighbor = this.grid[possibleNeighborPoint.y][possibleNeighborPoint.x];
+          Node neighbor = this._grid[possibleNeighborPoint.y][possibleNeighborPoint.x];
           if (onlyWalkable) {
             if (neighbor.walkable) {
               neighbors.add(neighbor);
@@ -122,7 +111,7 @@ class Grid extends Graph {
   List<Node> get allNodes {
     List<Node> nodes = new List<Node>();
 
-    for (List<Node> nodeRow in this.grid) {
+    for (List<Node> nodeRow in this._grid) {
       for (Node node in nodeRow) {
         nodes.add(node);
       }
@@ -147,14 +136,13 @@ class Grid extends Graph {
     Point bottom = new Point(node.location.x, node.location.y + 1);
 
     if (this.containsPoint(left)) {
-      if (!this.grid[left.y][left.x].walkable) {
+      if (!this._grid[left.y][left.x].walkable) {
         corners.remove(top_left);
         corners.remove(bottom_left);
       }
-    }
-
+    } 
     if (this.containsPoint(right)) {
-      if (!this.grid[right.y][left.x].walkable) {
+      if (!this._grid[right.y][left.x].walkable) {
         corners.remove(top_right);
         corners.remove(bottom_right);
       }
@@ -165,14 +153,14 @@ class Grid extends Graph {
     }
 
     if (this.containsPoint(top)) {
-      if (!this.grid[top.y][top.x].walkable) {
+      if (!this._grid[top.y][top.x].walkable) {
         corners.remove(top_left);
         corners.remove(top_right);
       }
     }
 
     if (this.containsPoint(bottom)) {
-      if (!this.grid[bottom.y][bottom.x].walkable) {
+      if (!this._grid[bottom.y][bottom.x].walkable) {
         corners.remove(bottom_left);
         corners.remove(bottom_right);
       }
@@ -186,7 +174,7 @@ class Grid extends Graph {
 
     for (Point corner in corners) {
       if (this.containsPoint(corner)) {
-        Node node = this.grid[corner.y][corner.x];
+        Node node = this._grid[corner.y][corner.x];
         if (node.walkable) {
           exteriorCorners.add(node);
         }
@@ -213,25 +201,25 @@ class Grid extends Graph {
 
   Node nodeFromPoint(Point point) {
     if (!this.containsPoint(point)) {
-      throw new ArgumentError('This graph does not contain that point!');
+      throw new ArgumentError('This Grid does not contain the point: $point');
     }
-    return this.grid[point.y][point.x];
+    return this._grid[point.y][point.x];
   }
 
   /**
-   * Check whether or not the 2-dimensional List grid is rectangular.
+   * Return whether or not the 2-dimensional List<List> is rectangular.
    */
-  static bool _isRectangular(List<List> boolList) {
-    if (boolList.length == 0) {
+  static bool _isRectangular(List<List> list) {
+    if (list.length == 0) {
       return false;
-    } else if (boolList.first.length == 0) {
+    } else if (list.first.length == 0) {
       return false;
     }
 
-    final int firstRowLength = boolList.first.length;
+    final int firstRowLength = list.first.length;
 
-    for (int i = 0; i < boolList.length; i++) {
-      if (boolList[i].length != firstRowLength) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].length != firstRowLength) {
         return false;
       }
     }
