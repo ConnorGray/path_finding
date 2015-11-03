@@ -8,25 +8,29 @@ part of path_finding;
 ///
 ///```
 ///       0       1       2
-///   |-----------------------|
+///   -------------------------
 /// 0 | true  | true  | true  |
-///   |-----------------------|
+///   |-------|-------|-------|
 /// 1 | false | true  | true  |
-///   |-----------------------|
+///   |-------|-------|-------|
 /// 2 | true  | false | false |
-///   |-----------------------|
+///   -------------------------
 ///```
-///
-/// Top Right (2, 0): 0 obstructions -> 
-/// Top Left  (0, 0): 1 obstructions -> (0, 1)
-/// Bot Left  (0, 2): 2 obstructions -> (0, 1) (1, 2)
 ///
 /// An obstruction is any [Node node] where [node.walkable == false], and that node
 /// is inbetween the [centerNode] and one of its corner neighbors.
 ///
-/// For the different values of DiagonalMovement the results of
+/// So, of of the walkable corner neighbors of [centerNode], each has these obstructions:
+///```
+/// Top Right (2, 0): 0 obstructions -> 
+/// Top Left  (0, 0): 1 obstructions -> (0, 1)
+/// Bot Left  (0, 2): 2 obstructions -> (0, 1) (1, 2)
+///```
+///
+/// For the different values of DiagonalMovement, the results of
 /// Grid.getNeighbors(centerNode) are:
 ///
+///```
 /// case DiagonalMovement.Always:  
 ///   [(0, 0), (1, 0), (2, 0), (2, 1), (0, 2)]  
 /// case DiagonalMovement.Never:  
@@ -35,6 +39,7 @@ part of path_finding;
 ///   [(2, 0), (1, 0), (2, 1)]  
 /// case DiagonalMovement.WithOneObstruction:  
 ///   [(0, 0), (2, 0), (1, 0), (2, 1)]  
+///```
 enum DiagonalMovement {
   Always,
   Never,
