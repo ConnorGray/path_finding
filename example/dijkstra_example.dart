@@ -8,7 +8,7 @@ void main() {
     [false, true,  true,  true]
   ];
 
-  Grid grid = new Grid.fromBools(boolGrid);
+  Grid grid = new Grid(boolGrid);
   grid.allowDiagonals = false;
 
   DijkstraFinder dijkstraFinder = new DijkstraFinder(grid);
