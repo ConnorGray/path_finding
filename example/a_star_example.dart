@@ -15,5 +15,7 @@ void main() {
 
   List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
 
-  print(path);
+  for (Point point in path) {
+    print(point);
+  }
 }
