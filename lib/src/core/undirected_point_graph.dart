@@ -1,10 +1,29 @@
 part of path_finding;
 
 class UndirectedPointGraph extends Graph {
-  Map<PointNode, Set<PointNode>> _adjacencyMap = new Map<PointNode, Set<PointNode>>();
+  Map<PointNode, Set<PointNode>> _adjacencyMap =
+    new Map<PointNode, Set<PointNode>>();
 
   UndirectedPointGraph() {
     
+  }
+
+  UndirectedPointGraph.fromAdjacencyList(List<List<PointNode>> adjacencyList) {
+    if (adjacencyList is! List) {
+      throw new ArgumentError('Argument `adjacencyList` must be of type List!');
+    }
+
+    for (List<PointNode> adjacencyPair in adjacencyList) {
+      if (adjacencyPair is! List) {
+        throw new ArgumentError('Every element of argument `adjacencyList` must be a list!');
+      }
+
+      if (adjacencyPair.length != 2) {
+        throw new ArgumentError('Every list element of `adjacencyList` must be length 2!');
+      }
+
+      this.addAdjacency(adjacencyPair[0], adjacencyPair[1]);
+    }
   }
 
   //-------------------------//
