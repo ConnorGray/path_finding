@@ -1,13 +1,20 @@
 part of path_finding;
 
+/// An undirected graph where each node is tied to a [Point].
+///
+/// A UndirectedPointGraph can be used for most general
+/// purpose graph needs.
 class UndirectedPointGraph extends Graph {
   Map<PointNode, Set<PointNode>> _adjacencyMap =
     new Map<PointNode, Set<PointNode>>();
 
+  /// Default constructor. Use .addAdjacency to populate this [Graph].
   UndirectedPointGraph() {
     
   }
 
+  /// Conveinience constructor, that calls .addAdjacency for
+  /// each element of [adjacencyList].
   UndirectedPointGraph.fromAdjacencyList(List<List<PointNode>> adjacencyList) {
     if (adjacencyList is! List) {
       throw new ArgumentError('Argument `adjacencyList` must be of type List!');
@@ -30,6 +37,7 @@ class UndirectedPointGraph extends Graph {
   // Graph Interface Methods //
   //-------------------------//
 
+  /// Returns every [PointNode] that is adjacent to [node].
   List<PointNode> getNeighbors(PointNode node, {bool onlyWalkable: true}) {
     Set<PointNode> neighbors = this._adjacencyMap[node];
     return neighbors.toList();
@@ -55,6 +63,7 @@ class UndirectedPointGraph extends Graph {
   // Implementation Methods // 
   //------------------------//
 
+  /// Add an edge to this graph connecting [node1] and [node2].
   void addAdjacency(PointNode node1, PointNode node2) {
     if (this._adjacencyMap.containsKey(node1)) {
       this._adjacencyMap[node1].add(node2);
@@ -69,6 +78,8 @@ class UndirectedPointGraph extends Graph {
     }
   }
 
+  /// Return a ListList<PointNode>> where each element is an
+  /// [PointNode] pair representing an edge of this graph.
   List<List<PointNode>> get adjacencyList {
     List<Set<PointNode>> adjacencySet = new List<Set<PointNode>>();
 
