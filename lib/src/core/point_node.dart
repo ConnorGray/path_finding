@@ -4,7 +4,7 @@ class PointNode extends Node {
   /// The location of this node on the 2 dimentional cartesian plane.
   final Point location;
 
-  String toString() => '[$walkable $location]';
+  String toString() => 'PointNode at (${location.x}, ${location.y})';
 
   PointNode(this.location, {bool walkable: true}) : super(walkable);
 
