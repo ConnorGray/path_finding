@@ -11,11 +11,14 @@ void main() {
   Grid grid = new Grid(boolGrid);
   grid.diagonalMovement = DiagonalMovement.Never;
 
+  PointNode start = grid.nodeFromPoint(new Point(0, 0));
+  PointNode goal = grid.nodeFromPoint(new Point(3, 0));
+
   DijkstraFinder dijkstraFinder = new DijkstraFinder(grid);
 
-  List<Point> path = dijkstraFinder.pathFind(new Point(0, 0), new Point(3, 0));
+  List<PointNode> path = dijkstraFinder.pathFind(start, goal);
 
-  for (Point point in path) {
-    print(point);
+  for (PointNode point in path) {
+    print(point.location);
   }
 }

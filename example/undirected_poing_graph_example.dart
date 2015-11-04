@@ -14,7 +14,7 @@ void main() {
   undirectedGraph.addAdjacency(B, C);
   undirectedGraph.addAdjacency(B, D);
   undirectedGraph.addAdjacency(C, D);
-  // undirectedGraph.addAdjacency(B, E);
+  undirectedGraph.addAdjacency(B, E);
   undirectedGraph.addAdjacency(C, E);
 
   AStarFinder aStarFinder = new AStarFinder(undirectedGraph);
