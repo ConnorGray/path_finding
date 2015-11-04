@@ -9,6 +9,5 @@ class PointNode extends Node {
   PointNode(this.location, {bool walkable: true}) : super(walkable);
 
   bool operator ==(PointNode other) => this.location == other.location;
-
   int get hashCode => this.location.hashCode;
 }
