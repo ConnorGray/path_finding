@@ -43,6 +43,7 @@ xxxoo
       Grid grid = new Grid(nonRectangularBoolGrid);
     }
     
+    expect(throwsError, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test("Grid.fromString constructor errors on non-rectangular grid.", () {
