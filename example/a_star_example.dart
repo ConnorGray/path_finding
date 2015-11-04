@@ -3,9 +3,8 @@ import 'dart:math' show Point;
 
 void main() {
   List<List<bool>> boolGrid = [
-    [true,  true,  false],
-    [false, true,  false],
-    [false, true,  true],
+    [true,  true],
+    [true,  true],
   ];
 
   Grid grid = new Grid(boolGrid);
@@ -13,9 +12,10 @@ void main() {
 
   AStarFinder aStarFinder = new AStarFinder(grid);
 
-  List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+  var path = aStarFinder
+    .pathFind(new PointNode(new Point(0, 0)), new PointNode(new Point(1, 1)));
 
-  for (Point point in path) {
-    print(point);
+  for (PointNode node in path) {
+    print(node.location);
   }
 }
