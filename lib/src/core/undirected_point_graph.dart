@@ -68,4 +68,37 @@ class UndirectedPointGraph extends Graph {
       this._adjacencyMap[node2] = new Set<PointNode>()..add(node1);
     }
   }
+
+  List<List<PointNode>> get adjacencyList {
+    List<Set<PointNode>> adjacencySet = new List<Set<PointNode>>();
+
+    for (PointNode node in this._adjacencyMap.keys) {
+      for (PointNode adjacentNode in this._adjacencyMap[node]) {
+        if (adjacentNode == node) continue;
+        Set<PointNode> adjacency = new Set()
+          ..add(node)
+          ..add(adjacentNode);
+
+        bool alreadyContainsAdjacency = false;
+        for (Set<PointNode> existingAdjacency in adjacencySet) {
+          if (existingAdjacency.containsAll(adjacency)) {
+            alreadyContainsAdjacency = true;
+            break;
+          }
+        }
+
+        if (!alreadyContainsAdjacency) {
+          adjacencySet.add(adjacency);
+        }
+      }
+    }
+
+    List<List<PointNode>> adjacencyList = new List<List<PointNode>>();
+
+    for (Set<PointNode> adjacency in adjacencySet) {
+      adjacencyList.add(adjacency.toList());
+    }
+
+    return adjacencyList;
+  }
 }
