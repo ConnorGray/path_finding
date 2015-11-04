@@ -73,7 +73,7 @@ class Grid extends Graph {
     }
 
     for (int y = 0; y < boolGrid.length; y++) {
-      List<Node> nodeRow = new List<Node>();
+      List<PointNode> nodeRow = new List<PointNode>();
 
       for (int x = 0; x < boolGrid[y].length; x++) {
         if (boolGrid[y][x] is! bool) {
@@ -184,7 +184,7 @@ class Grid extends Graph {
   }
 
   List<PointNode> _nodesFromOffsets(PointNode node, List<Point> offsets, bool onlyWalkable) {
-    List<PointNode> offsetNodes = new List<Node>();
+    List<PointNode> offsetNodes = new List<NodePoint>();
 
     for (Point offset in offsets) {
       Point offsetPoint = node.location + offset;
