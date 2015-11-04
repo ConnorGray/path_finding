@@ -4,12 +4,12 @@ import 'package:path_finding/path_finding.dart';
 import 'dart:math' show Point;
 
 void main() {
-  final List<List<bool>> rectangularBoolGrid = new List<List<bool>>()
-    ..add([true, true, false, false, true])
-    ..add([true, true, true, false, true])
-    ..add([false, false, true, false, true])
-    ..add([false, false, true, false, true])
-    ..add([false, false, true, true, true]);
+  final List<List<bool>> rectangularBoolGrid = [
+    [true,  true,  false, true ],
+    [true,  true,  true,  true ],
+    [true,  true,  false, true ],
+    [true,  true,  true,  true ]
+  ];
 
   final List<List<bool>> nonRectangularBoolGrid = new List<List<bool>>()
     ..add([true, true, false, false, true])
@@ -147,7 +147,31 @@ xxxoo
     expect(actualNeighbors, equals(expectedNeighbors));
   });
 
-  // test("Grid.exteriorCorners method works.", () {
+  test("Grid.getExteriorCorners method works.", () {
+    Grid grid = new Grid(rectangularBoolGrid);
 
-  // });
+    Set<Set<PointNode>> expectedExteriorCorners = [
+      new PointNode(new Point(1, 1)),
+      new PointNode(new Point(3, 1)),
+      new PointNode(new Point(1, 3)),
+      new PointNode(new Point(3, 3))
+    ].toSet();
+
+    expect(grid.getExteriorCorners(), equals(expectedExteriorCorners));
+  });
+
+  test("Grid.getExteriorCornersGraph method works.", () {
+    Grid grid = new Grid(rectangularBoolGrid);
+
+    UndirectedPointGraph graph = grid.getExteriorCornersGraph();
+
+    Set<Set<PointNode>> expectedAdjacencies = [
+      [new PointNode(new Point(1, 1)), new PointNode(new Point(3, 1))],
+      [new PointNode(new Point(1, 1)), new PointNode(new Point(1, 3))],
+      [new PointNode(new Point(3, 1)), new PointNode(new Point(3, 3))],
+      [new PointNode(new Point(1, 3)), new PointNode(new Point(3, 3))]
+    ].toSet();
+
+    expect(graph.adjacencyList, equals(expectedAdjacencies));
+  });
 }
