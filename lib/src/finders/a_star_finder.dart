@@ -17,17 +17,17 @@ class AStarFinder extends Finder {
     Map<Node, Node> Came_From = new Map<Node, Node>();
 
     for (Node node in this.graph.allNodes) {
-      node.g = double.INFINITY;
-      node.f = double.INFINITY;
+      node._g = double.INFINITY;
+      node._f = double.INFINITY;
     }
 
-    start.g = 0.0;
-    start.f = start.g + Heuristic.euclidean(start.location, goal.location);
+    start._g = 0.0;
+    start._f = start._g + Heuristic.euclidean(start.location, goal.location);
 
     while (Open.isNotEmpty) {
       Node current = Open.first;
       for (Node node in Open) {
-        if (node.f < current.f) {
+        if (node._f < current._f) {
           current = node;
         }
       }
@@ -44,17 +44,17 @@ class AStarFinder extends Finder {
           continue;
         } 
 
-        double tentative_g_score = current.g + this.graph.distance(current, neighbor);
+        double tentative_g_score = current._g + this.graph.distance(current, neighbor);
 
         if (!Open.contains(neighbor)) {
           Open.add(neighbor);
-        } else if (tentative_g_score >= neighbor.g) {
+        } else if (tentative_g_score >= neighbor._g) {
           continue;
         }
 
         Came_From[neighbor] = current;
-        neighbor.g = tentative_g_score;
-        neighbor.f = neighbor.g + Heuristic.euclidean(neighbor.location, goal.location);
+        neighbor._g = tentative_g_score;
+        neighbor._f = neighbor._g + Heuristic.euclidean(neighbor.location, goal.location);
       }
     }
 

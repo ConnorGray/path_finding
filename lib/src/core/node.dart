@@ -12,13 +12,13 @@ class Node {
   /// Used by:
   ///   - A*
   ///   - Dijkstra
-  double f;
+  double _f;
 
   /// Temporary value used by the Finder's.
   ///
   /// Used by:
   ///   - A*
-  double g;
+  double _g;
 
   String toString() => '[$walkable $location]';
 

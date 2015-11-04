@@ -16,12 +16,12 @@ class DijkstraFinder extends Finder {
     Map<Node, Node> Came_From = new Map<Node, Node>();
 
     for (Node node in this.graph.allNodes) {
-      node.f = double.INFINITY;
+      node._f = double.INFINITY;
       Unvisited.add(node);
     }
 
     Node current = start;
-    current.f = 0.0;
+    current._f = 0.0;
 
     while (Unvisited.isNotEmpty) {
       for (Node neighbor in this.graph.getNeighbors(current, onlyWalkable: true)) {
@@ -29,9 +29,9 @@ class DijkstraFinder extends Finder {
           continue;
         }
 
-        double tentative_distance = current.f + Heuristic.euclidean(current.location, neighbor.location);
-        if (tentative_distance < neighbor.f) {
-          neighbor.f = tentative_distance;
+        double tentative_distance = current._f + Heuristic.euclidean(current.location, neighbor.location);
+        if (tentative_distance < neighbor._f) {
+          neighbor._f = tentative_distance;
           Came_From[neighbor] = current;
         }
       }
@@ -45,13 +45,13 @@ class DijkstraFinder extends Finder {
 
       Node nodeWithSmallestDistance = Unvisited.first;
       for (Node node in Unvisited) {
-        if (node.f < nodeWithSmallestDistance.f) {
+        if (node._f < nodeWithSmallestDistance._f) {
           nodeWithSmallestDistance = node;
         }
       }
 
       // No connection between start and goal nodes exists.
-      if (nodeWithSmallestDistance.f == double.INFINITY) {
+      if (nodeWithSmallestDistance._f == double.INFINITY) {
         return [];
       }
 
