@@ -22,6 +22,6 @@ void main() {
   List<PointNode> path = aStarFinder.pathFind(A, E);
 
   for (PointNode node in path) {
-    print(node);
+    print(node.location);
   }
 }
