@@ -125,6 +125,10 @@ class Grid extends Graph {
     return new Grid(boolGrid);
   }
 
+  //-------------------------//
+  // Graph Interface Methods //
+  //-------------------------//
+
   /// Return a list of nodes that are the neighbors of [node].
   ///
   /// By default, will only return only the neighbor nodes that are walkable.
@@ -136,7 +140,7 @@ class Grid extends Graph {
 
     neighbors.addAll(this._getSides(node, onlyWalkable));
     if (this.diagonalMovement != DiagonalMovement.Never) {
-      neighbors.addAll(this._getCorners(node, onlyWalkable));
+      neighbors.addAll(this._getCorners(node, onlyWalkable, diagonalMovement));
     }
 
     return neighbors;
@@ -149,6 +153,10 @@ class Grid extends Graph {
 
   double heuristic(PointNode n1, PointNode n2) {
     return n1.location.distanceTo(n2.location);
+  }
+
+  bool containsNode(PointNode node) {
+    return this.containsPoint(node.location);
   }
 
   /// Returns a list of all the nodes that are part of this graph.
@@ -164,11 +172,11 @@ class Grid extends Graph {
     return nodes;
   }
 
-  bool containsNode(PointNode node) {
-    return this.containsPoint(node.location);
-  }
+  //------------------------//
+  // Implementation Methods // 
+  //------------------------//
 
-  /// Returns whether or not this Grid contains a [PointNode] at [point].
+  /// Returns whether or not this [Grid] contains a [PointNode] at [point].
   bool containsPoint(Point point) {
     return point.x >= 0 && point.y >= 0 && point.x < this.cols && point.y < this.rows;
   }
@@ -183,27 +191,54 @@ class Grid extends Graph {
     return this._grid[point.y][point.x];
   }
 
-  List<PointNode> _nodesFromOffsets(PointNode node, List<Point> offsets, bool onlyWalkable) {
-    List<PointNode> offsetNodes = new List<NodePoint>();
+  /// Return a list of all the "exterior corners" of this [Grid].
+  ///
+  /// An "exterior corner" is defined as any walkable [Node]
+  /// diagonally adjacent to a non-walkable [Node] that has
+  /// 0 obstructions. An obstruction in defined in the doc
+  /// string for the DiagonalMovement enum.
+  List<PointNode> getExteriorCorners() {
+    Set<PointNode> exteriorCorners = new Set<PointNode>();
 
-    for (Point offset in offsets) {
-      Point offsetPoint = node.location + offset;
-      if (this.containsPoint(offsetPoint)) {
-        Node offsetNode = this.nodeFromPoint(offsetPoint);
-        if (onlyWalkable) {
-          if (offsetNode.walkable) {
-            offsetNodes.add(offsetNode);
-          }
-        } else {
-          offsetNodes.add(offsetNode);
+    for (int x = 0; x < this.cols; x++) {
+      for (int y = 0; y < this.rows; y++) {
+        PointNode center = this.nodeFromPoint(new Point(x, y));
+        if (!center.walkable) {
+          exteriorCorners.addAll(
+              this._getCorners(center, true, DiagonalMovement.WithNoObstructions));
         }
       }
     }
 
-    return offsetNodes;
+    return exteriorCorners.toList();
   }
 
-  List<PointNode> _getCorners(PointNode node, bool onlyWalkable) {
+  /// Construct an [UndirectedPointGraph] from this [Grid]s exterior corners.
+  ///
+  /// The Graph is optimized to only hold adjacencies between
+  /// exterior corners who are "line of sight" with each other,
+  /// meaning there are no non-walkable nodes on the straight
+  /// line between them.
+  UndirectedPointGraph getExteriorCornersGraph() {
+    List<PointNode> exteriorCorners = this.getExteriorCorners();
+
+    UndirectedPointGraph exteriorCornersGraph = new UndirectedPointGraph();
+
+    for (PointNode outerNode in exteriorCorners) {
+      for (PointNode innerNode in exteriorCorners) {
+        if (_isWalkableLine(outerNode, innerNode)) {
+          exteriorCornersGraph.addAdjacency(outerNode, innerNode);
+        }
+      }
+    }
+
+    return exteriorCornersGraph;
+  }
+
+  List<PointNode> _getCorners(PointNode node, bool onlyWalkable,
+      DiagonalMovement diagonal) {
+    if (diagonal == DiagonalMovement.Never) return [];
+
     List<Point> offsets = const [
       const Point(-1, -1), const Point(1, -1),
       const Point(-1, 1), const Point(1, 1)];
@@ -234,7 +269,7 @@ class Grid extends Graph {
         }
       }
 
-      switch (this.diagonalMovement) {
+      switch (diagonal) {
         case DiagonalMovement.Always:
           allowedCorners.add(corner);
           break;
@@ -262,6 +297,85 @@ class Grid extends Graph {
       const Point(0, -1), const Point(0, 1)];
 
     return this._nodesFromOffsets(node, offsets, onlyWalkable);
+  }
+
+  /// Take a node and a list of offsets and return a list made
+  /// of the result of each offset being applied to node.
+  List<PointNode> _nodesFromOffsets(PointNode node, List<Point> offsets, bool onlyWalkable) {
+    List<PointNode> offsetNodes = new List<PointNode>();
+
+    for (Point offset in offsets) {
+      Point offsetPoint = node.location + offset;
+      if (this.containsPoint(offsetPoint)) {
+        Node offsetNode = this.nodeFromPoint(offsetPoint);
+        if (onlyWalkable) {
+          if (offsetNode.walkable) {
+            offsetNodes.add(offsetNode);
+          }
+        } else {
+          offsetNodes.add(offsetNode);
+        }
+      }
+    }
+
+    return offsetNodes;
+  }
+
+  /// Return whether or not every point on the Bresenham line
+  /// between [n1] and [n2] is walkable.
+  bool _isWalkableLine(PointNode n1, PointNode n2) {
+    List<Point> linePoints = _bresenhamLine(n1.location, n2.location);
+    for (Point point in linePoints) {
+      if (!this.nodeFromPoint(point).walkable) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// Implementation based on Python implementation found at:
+  /// www.roguebasin.com/index.php?title=Bresenham%27s_Line_Algorithm#Python
+  static List<Point> _bresenhamLine(Point n1, Point n2) {
+    Point delta = n2 - n1;
+
+    bool isSteep = delta.y.abs() > delta.x.abs();
+
+    if (isSteep) {
+      n1 = new Point(n1.y, n1.y);
+      n2 = new Point(n2.y, n2.x);
+    }
+
+    bool swapped = false;
+    if (n1.x > n2.x) {
+      Point temp = n1;
+      n1 = new Point(n2.x, n2.y);
+      n2 = new Point(temp.x, temp.y);
+      swapped = true;
+    }
+
+    delta = n2 - n1;
+
+    int error = (delta.x / 2.0).toInt();
+    int yStep = n1.y < n2.y ? 1 : -1;
+
+    List<Point> linePoints = new List<Point>();
+
+    int y = n1.y;
+    for (int x = n1.x; x <= n2.x; x++) {
+      Point coord = isSteep ? new Point(y, x) : new Point(x, y);
+      linePoints.add(coord);
+      error -= delta.y.abs();
+      if (error < 0) {
+        y += yStep;
+        error += delta.x;
+      }
+    }
+
+    if (swapped) {
+      return linePoints.reversed.toList();
+    } else {
+      return linePoints.toList();
+    }
   }
 
   /// Return whether or not the 2-dimensional List<List> is rectangular.
