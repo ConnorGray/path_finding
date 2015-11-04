@@ -49,7 +49,7 @@ enum DiagonalMovement {
 
 /// A convinience implementation of a square lattice graph.
 class Grid extends Graph {
-  final List<List<Node>> _grid = new List<List<Node>>();
+  final List<List<PointNode>> _grid = new List<List<PointNode>>();
 
   ///  Number of rows in this Grid.
   int get rows => this._grid.length;
@@ -79,7 +79,7 @@ class Grid extends Graph {
         if (boolGrid[y][x] is! bool) {
           throw new ArgumentError('Every element of `boolGrid` must be of type boolean!');
         }
-        Node node = new Node(new Point(x, y))..walkable = boolGrid[y][x];
+        PointNode node = new PointNode(new Point(x, y))..walkable = boolGrid[y][x];
         nodeRow.add(node);
       }
 
@@ -131,8 +131,8 @@ class Grid extends Graph {
   ///
   /// Uses the Grid.diagonalMovement property to decide which corner neighbors
   /// of [node] should be included in the results.
-  List<Node> getNeighbors(Node node, {bool onlyWalkable: true}) {
-    List<Node> neighbors = new List<Node>();
+  List<PointNode> getNeighbors(PointNode node, {bool onlyWalkable: true}) {
+    List<PointNode> neighbors = new List<PointNode>();
 
     neighbors.addAll(this._getSides(node, onlyWalkable));
     if (this.diagonalMovement != DiagonalMovement.Never) {
@@ -143,15 +143,19 @@ class Grid extends Graph {
   }
 
   /// Returns the euclidean distance between [n1] and [n2].
-  double distance(Node n1, Node n2) {
+  double distance(PointNode n1, PointNode n2) {
+    return n1.location.distanceTo(n2.location);
+  }
+
+  double heuristic(PointNode n1, PointNode n2) {
     return n1.location.distanceTo(n2.location);
   }
 
   /// Returns a list of all the nodes that are part of this graph.
-  List<Node> get allNodes {
-    List<Node> nodes = new List<Node>();
+  List<PointNode> get allNodes {
+    List<PointNode> nodes = new List<PointNode>();
 
-    for (List<Node> nodeRow in this._grid) {
+    for (List<PointNode> nodeRow in this._grid) {
       for (Node node in nodeRow) {
         nodes.add(node);
       }
@@ -160,23 +164,27 @@ class Grid extends Graph {
     return nodes;
   }
 
+  bool containsNode(PointNode node) {
+    return this.containsPoint(node.location);
+  }
+
+  /// Returns whether or not this Grid contains a [PointNode] at [point].
   bool containsPoint(Point point) {
     return point.x >= 0 && point.y >= 0 && point.x < this.cols && point.y < this.rows;
   }
 
-  bool containsNode(Node node) {
-    return this.containsPoint(node.location);
-  }
-
-  Node nodeFromPoint(Point point) {
+  /// Returns the [PointNode] of this [Grid] found at [point].
+  ///
+  /// Throws [ArgumentError] if there is no Node located at [point].
+  PointNode nodeFromPoint(Point point) {
     if (!this.containsPoint(point)) {
       throw new ArgumentError('This Grid does not contain the point: $point');
     }
     return this._grid[point.y][point.x];
   }
 
-  List<Node> _nodesFromOffsets(Node node, List<Point> offsets, bool onlyWalkable) {
-    List<Node> offsetNodes = new List<Node>();
+  List<PointNode> _nodesFromOffsets(PointNode node, List<Point> offsets, bool onlyWalkable) {
+    List<PointNode> offsetNodes = new List<Node>();
 
     for (Point offset in offsets) {
       Point offsetPoint = node.location + offset;
@@ -195,15 +203,15 @@ class Grid extends Graph {
     return offsetNodes;
   }
 
-  List<Node> _getCorners(Node node, bool onlyWalkable) {
+  List<PointNode> _getCorners(PointNode node, bool onlyWalkable) {
     List<Point> offsets = const [
       const Point(-1, -1), const Point(1, -1),
       const Point(-1, 1), const Point(1, 1)];
 
-    List<Node> allCorners = this._nodesFromOffsets(node, offsets, onlyWalkable);
-    List<Node> allowedCorners = new List<Node>();
+    List<PointNode> allCorners = this._nodesFromOffsets(node, offsets, onlyWalkable);
+    List<PointNode> allowedCorners = new List<PointNode>();
 
-    for (Node corner in allCorners) {
+    for (PointNode corner in allCorners) {
       int xOffset = corner.location.x - node.location.x;
       int yOffset = corner.location.y - node.location.y; 
 
@@ -213,14 +221,14 @@ class Grid extends Graph {
       int numObstructions = 0;
 
       if (this.containsPoint(xDiffSidePoint)) {
-        Node xDiffSideNode = this.nodeFromPoint(xDiffSidePoint);
+        PointNode xDiffSideNode = this.nodeFromPoint(xDiffSidePoint);
         if (!xDiffSideNode.walkable) {
           numObstructions++;
         }
       }
 
       if (this.containsPoint(yDiffSidePoint)) {
-        Node yDiffSideNode = this.nodeFromPoint(yDiffSidePoint);
+        PointNode yDiffSideNode = this.nodeFromPoint(yDiffSidePoint);
         if (!yDiffSideNode.walkable) {
           numObstructions++;
         }
@@ -248,7 +256,7 @@ class Grid extends Graph {
     return allowedCorners;
   }
 
-  List<Node> _getSides(Node node, bool onlyWalkable) {
+  List<PointNode> _getSides(PointNode node, bool onlyWalkable) {
     List<Point> offsets = const [
       const Point(-1, 0), const Point(1, 0),
       const Point(0, -1), const Point(0, 1)];

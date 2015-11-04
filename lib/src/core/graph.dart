@@ -11,15 +11,11 @@ abstract class Graph {
   /// and is not guranteed to be the euclidean distance between [n1] and [n2].
   double distance(Node n1, Node n2);
 
-  /// Returns whether or not there is a note in this Graph located at [point].
-  bool containsPoint(Point point);
-  /// Returns whether or not the [Node node] is a member of this [Graph].
-  bool containsNode(Node node);
+  /// Returns the heuristic distance estimate between [n1] and [n2].
+  double heuristic(Node n1, Node n2);
 
-  /// Returns the node of this graph found at [point].
-  ///
-  /// Throws [ArgumentError] if there is no Node located at [point].
-  Node nodeFromPoint(Point point);
+  /// Returns whether or not the [Node] [node] is a member of this [Graph].
+  bool containsNode(Node node);
 
   /// Returns a list of all the nodes that are part of this [Graph].
   List<Node> get allNodes;

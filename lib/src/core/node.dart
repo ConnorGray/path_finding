@@ -1,9 +1,6 @@
 part of path_finding;
 
 class Node {
-  /// The location of this node on the 2 dimentional cartesian plane.
-  final Point location;
-
   /// Whether or not a path can go through this node.
   bool walkable;
 
@@ -20,9 +17,5 @@ class Node {
   ///   - A*
   double _g;
 
-  String toString() => '[$walkable $location]';
-
-  Node(this.location);
-
-  bool operator ==(Node other) => this.location == other.location;
+  Node(this.walkable);
 }

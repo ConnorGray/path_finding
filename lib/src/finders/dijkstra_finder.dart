@@ -7,10 +7,7 @@ part of path_finding;
 class DijkstraFinder extends Finder {
   DijkstraFinder(Graph graph) : super(graph);
 
-  List<Point> pathFind(Point startPoint, Point goalPoint) {
-    Node start = this.graph.nodeFromPoint(startPoint);
-    Node goal = this.graph.nodeFromPoint(goalPoint);
-
+  List<Node> pathFind(Node start, Node goal) {
     Set<Node> Unvisited = new Set<Node>();
 
     Map<Node, Node> Came_From = new Map<Node, Node>();
@@ -29,7 +26,9 @@ class DijkstraFinder extends Finder {
           continue;
         }
 
-        double tentative_distance = current._f + Heuristic.euclidean(current.location, neighbor.location);
+        double tentative_distance =
+          current._f + this.graph.heuristic(current, neighbor);
+
         if (tentative_distance < neighbor._f) {
           neighbor._f = tentative_distance;
           Came_From[neighbor] = current;
@@ -61,12 +60,12 @@ class DijkstraFinder extends Finder {
     return [];
   }
 
-  List<Point> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
-    List<Point> totalPath = [current.location];
+  List<Node> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
+    List<Node> totalPath = [current];
 
     while (Came_From.keys.contains(current)) {
       current = Came_From[current];
-      totalPath.add(current.location);
+      totalPath.add(current);
     }
 
     return totalPath.reversed.toList();

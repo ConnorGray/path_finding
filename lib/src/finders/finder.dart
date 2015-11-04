@@ -11,5 +11,5 @@ abstract class Finder {
   /// between the [start] and [goal] nodes in [this.graph].
   ///
   /// Every point on the returned path was a walkable [Node] of [this.graph].
-  List<Point> pathFind(Point start, Point goal);
+  List<Node> pathFind(Node start, Node goal);
 }

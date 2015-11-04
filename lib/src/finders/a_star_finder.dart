@@ -7,10 +7,7 @@ part of path_finding;
 class AStarFinder extends Finder {
   AStarFinder(Graph graph) : super(graph);
 
-  List<Point> pathFind(Point startPoint, Point goalPoint) {
-    Node start = this.graph.nodeFromPoint(startPoint);
-    Node goal = this.graph.nodeFromPoint(goalPoint);
-
+  List<Node> pathFind(Node start, Node goal) {
     Set<Node> Closed = new Set<Node>();
     Set<Node> Open = new Set<Node>()..add(start);
 
@@ -22,7 +19,7 @@ class AStarFinder extends Finder {
     }
 
     start._g = 0.0;
-    start._f = start._g + Heuristic.euclidean(start.location, goal.location);
+    start._f = start._g + this.graph.heuristic(start, goal);
 
     while (Open.isNotEmpty) {
       Node current = Open.first;
@@ -54,19 +51,19 @@ class AStarFinder extends Finder {
 
         Came_From[neighbor] = current;
         neighbor._g = tentative_g_score;
-        neighbor._f = neighbor._g + Heuristic.euclidean(neighbor.location, goal.location);
+        neighbor._f = neighbor._g + this.graph.heuristic(neighbor, goal);
       }
     }
 
     return []; 
   }
 
-  List<Point> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
-    List<Point> totalPath = [current.location];
+  List<Node> _reconstruct_path(Map<Node, Node> Came_From, Node current) {
+    List<Node> totalPath = [current];
 
     while (Came_From.keys.contains(current)) {
       current = Came_From[current];
-      totalPath.add(current.location);
+      totalPath.add(current);
     }
 
     return totalPath.reversed.toList();
