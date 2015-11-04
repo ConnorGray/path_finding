@@ -19,15 +19,18 @@ void main() {
     ..add([false, true,  false])
     ..add([false, false,  true]);
 
+  final PointNode boolGridStart = new PointNode(new Point(0, 0));
+  final PointNode boolGridGoal = new PointNode(new Point(2, 2));
 
   test("AStarFinder finds correct diagonal path.", () {
     Grid grid = new Grid(boolGrid);
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
-    List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+    List<PointNode> path = aStarFinder.pathFind(boolGridStart, boolGridGoal);
+    List<Point> pathPoints = path.map((PointNode node) => node.location).toList();
 
-    expect(path, equals([new Point(0, 0), new Point(1, 1), new Point(2, 2)]));
+    expect(pathPoints, equals([new Point(0, 0), new Point(1, 1), new Point(2, 2)]));
   });
 
   test("AStarFinder finds correct non-diagonal path.", () {
@@ -36,9 +39,10 @@ void main() {
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
-    List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+    List<PointNode> path = aStarFinder.pathFind(boolGridStart, boolGridGoal);
+    List<Point> pathPoints = path.map((PointNode node) => node.location).toList();
 
-    expect(path,
+    expect(pathPoints,
         equals([
           new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(1, 2),
           new Point(2, 2)]));
@@ -49,9 +53,10 @@ void main() {
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
-    List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+    List<PointNode> path = aStarFinder.pathFind(boolGridStart, boolGridGoal);
+    List<Point> pathPoints = path.map((PointNode node) => node.location).toList();
 
-    expect(path, equals([]));
+    expect(pathPoints, equals([]));
   });
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid works with diagonals.", () {
@@ -60,9 +65,10 @@ void main() {
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
-    List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+    List<PointNode> path = aStarFinder.pathFind(boolGridStart, boolGridGoal);
+    List<Point> pathPoints = path.map((PointNode node) => node.location).toList();
 
-    expect(path, equals([new Point(0, 0), new Point(1, 1), new Point(2, 2)]));
+    expect(pathPoints, equals([new Point(0, 0), new Point(1, 1), new Point(2, 2)]));
   });
 
   test("AStarFinder on noSolutionWithoutDiagonalsBoolGrid does not work without diagonals.", () {
@@ -71,8 +77,9 @@ void main() {
 
     AStarFinder aStarFinder = new AStarFinder(grid);
 
-    List<Point> path = aStarFinder.pathFind(new Point(0, 0), new Point(2, 2));
+    List<PointNode> path = aStarFinder.pathFind(boolGridStart, boolGridGoal);
+    List<Point> pathPoints = path.map((PointNode node) => node.location).toList();
 
-    expect(path, equals([]));
+    expect(pathPoints, equals([]));
   });
 }

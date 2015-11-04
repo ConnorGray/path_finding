@@ -89,14 +89,14 @@ xxxoo
     grid.diagonalMovement = DiagonalMovement.Always;
 
     Set<Node> expectedNeighbors = [
-      new Node(new Point(0, 0)),
-      new Node(new Point(1, 0)),
-      new Node(new Point(2, 0)),
-      new Node(new Point(2, 1)),
-      new Node(new Point(0, 2))
+      new PointNode(new Point(0, 0)),
+      new PointNode(new Point(1, 0)),
+      new PointNode(new Point(2, 0)),
+      new PointNode(new Point(2, 1)),
+      new PointNode(new Point(0, 2))
     ].toSet();
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new PointNode(new Point(1, 1))).toSet();
 
     expect(actualNeighbors, equals(expectedNeighbors));
   });
@@ -106,11 +106,11 @@ xxxoo
     grid.diagonalMovement = DiagonalMovement.Never;
 
     Set<Node> expectedNeighbors = [
-      new Node(new Point(1, 0)),
-      new Node(new Point(2, 1))
+      new PointNode(new Point(1, 0)),
+      new PointNode(new Point(2, 1))
     ].toSet();
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new PointNode(new Point(1, 1))).toSet();
 
     expect(actualNeighbors, equals(expectedNeighbors));
   });
@@ -120,12 +120,12 @@ xxxoo
     grid.diagonalMovement = DiagonalMovement.WithNoObstructions;
 
     Set<Node> expectedNeighbors = [
-      new Node(new Point(2, 0)),
-      new Node(new Point(1, 0)),
-      new Node(new Point(2, 1))
+      new PointNode(new Point(2, 0)),
+      new PointNode(new Point(1, 0)),
+      new PointNode(new Point(2, 1))
     ].toSet();
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new PointNode(new Point(1, 1))).toSet();
 
     expect(actualNeighbors, equals(expectedNeighbors));
   });
@@ -135,13 +135,13 @@ xxxoo
     grid.diagonalMovement = DiagonalMovement.WithOneObstruction;
 
     Set<Node> expectedNeighbors = [
-      new Node(new Point(0, 0)),
-      new Node(new Point(2, 0)),
-      new Node(new Point(1, 0)),
-      new Node(new Point(2, 1))
+      new PointNode(new Point(0, 0)),
+      new PointNode(new Point(2, 0)),
+      new PointNode(new Point(1, 0)),
+      new PointNode(new Point(2, 1))
     ].toSet();
 
-    Set<Node> actualNeighbors = grid.getNeighbors(new Node(new Point(1, 1))).toSet();
+    Set<Node> actualNeighbors = grid.getNeighbors(new PointNode(new Point(1, 1))).toSet();
 
     expect(actualNeighbors, equals(expectedNeighbors));
   });
