@@ -1,7 +1,5 @@
 /// Benchmark time by version #:
 /// * 0.2.0: 72.9  73.1  71.4  71.5  70.6  71.0  71.4  72.1  70.3  71.9
-/// * 0.2.1: 72.1  70.6  71.3  69.9  70.0
-///     - Migrated to using ._isIn[closed | open]Set instance variables.
 import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:path_finding/path_finding.dart';
 import 'dart:math' show Point;
