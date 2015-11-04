@@ -20,9 +20,6 @@ class Node {
   ///   - A*
   double _g;
 
-  bool _isInOpenSet = false;
-  bool _isInClosedSet = false;
-
   String toString() => '[$walkable $location]';
 
   Node(this.location);
