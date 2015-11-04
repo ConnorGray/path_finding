@@ -99,7 +99,10 @@
       <li><a class="" href="path_finding/Grid/containsNode.html">containsNode</a></li>
       <li><a class="" href="path_finding/Grid/containsPoint.html">containsPoint</a></li>
       <li><a class="" href="path_finding/Grid/distance.html">distance</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCorners.html">getExteriorCorners</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCornersGraph.html">getExteriorCornersGraph</a></li>
       <li><a class="" href="path_finding/Grid/getNeighbors.html">getNeighbors</a></li>
+      <li><a class="" href="path_finding/Grid/heuristic.html">heuristic</a></li>
       <li><a class="" href="path_finding/Grid/nodeFromPoint.html">nodeFromPoint</a></li>
       <li><a class="" href="path_finding/Grid/noSuchMethod.html">noSuchMethod</a></li>
       <li><a class="" href="path_finding/Grid/toString.html">toString</a></li>
@@ -110,8 +113,8 @@
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
 
     <section class="multi-line-signature">
-        <span class="returntype">List&lt;<a class="" href="path_finding/Node-class.html">Node</a>&gt;</span>
-        <span class="name ">getNeighbors</span>(<wbr><span class="parameter" id="getNeighbors-param-node"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">node</span></span>, {<span class="parameter" id="getNeighbors-param-onlyWalkable"><span class="type-annotation">bool</span> <span class="parameter-name">onlyWalkable</span>: <span class="default-value">true</span></span>})
+        <span class="returntype">List&lt;<a class="" href="path_finding/PointNode-class.html">PointNode</a>&gt;</span>
+        <span class="name ">getNeighbors</span>(<wbr><span class="parameter" id="getNeighbors-param-node"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">node</span></span>, {<span class="parameter" id="getNeighbors-param-onlyWalkable"><span class="type-annotation">bool</span> <span class="parameter-name">onlyWalkable</span>: <span class="default-value">true</span></span>})
     </section>
 
     <section class="desc markdown">
@@ -125,12 +128,12 @@ of <code>node</code> should be included in the results.</p>
 
     <section class="summary source-code" id="source">
       <h2><span>Source</span> </h2>
-      <pre><code class="prettyprint lang-dart">List&lt;Node&gt; getNeighbors(Node node, {bool onlyWalkable: true}) {
-  List&lt;Node&gt; neighbors = new List&lt;Node&gt;();
+      <pre><code class="prettyprint lang-dart">List&lt;PointNode&gt; getNeighbors(PointNode node, {bool onlyWalkable: true}) {
+  List&lt;PointNode&gt; neighbors = new List&lt;PointNode&gt;();
 
   neighbors.addAll(this._getSides(node, onlyWalkable));
   if (this.diagonalMovement != DiagonalMovement.Never) {
-    neighbors.addAll(this._getCorners(node, onlyWalkable));
+    neighbors.addAll(this._getCorners(node, onlyWalkable, diagonalMovement));
   }
 
   return neighbors;
@@ -147,7 +150,7 @@ of <code>node</code> should be included in the results.</p>
         <div class="container">
             <p class="text-center">
                 <span class="no-break">
-                  path_finding 0.2.1
+                  path_finding 0.3.0
                 </span>
                 &bull;
                 <span class="no-break">

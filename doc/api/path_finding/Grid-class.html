@@ -90,8 +90,9 @@
       <li><a class="" href="path_finding/Finder-class.html">Finder</a></li>
       <li><a class="" href="path_finding/Graph-class.html">Graph</a></li>
       <li><a class="" href="path_finding/Grid-class.html">Grid</a></li>
-      <li><a class="" href="path_finding/Heuristic-class.html">Heuristic</a></li>
       <li><a class="" href="path_finding/Node-class.html">Node</a></li>
+      <li><a class="" href="path_finding/PointNode-class.html">PointNode</a></li>
+      <li><a class="" href="path_finding/UndirectedPointGraph-class.html">UndirectedPointGraph</a></li>
     
     </ol>
   </div>
@@ -150,7 +151,7 @@
       <dl class="properties">
         <dt id="allNodes" class="property">
             <span class="name"><a class="" href="path_finding/Grid/allNodes.html">allNodes</a></span>
-            <span class="signature">&#8594; List&lt;<a class="" href="path_finding/Node-class.html">Node</a>&gt;</span>
+            <span class="signature">&#8594; List&lt;<a class="" href="path_finding/PointNode-class.html">PointNode</a>&gt;</span>
         </dt>
         <dd>
             <p>Returns a list of all the nodes that are part of this graph.</p>
@@ -232,12 +233,12 @@
       <h2>Methods</h2>
       <dl class="callables">
         <dt id="containsNode" class="callable">
-            <span class="name "><a class="" href="path_finding/Grid/containsNode.html">containsNode</a></span><span class="signature">(<wbr><span class="parameter" id="containsNode-param-node"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">node</span></span>)
+            <span class="name "><a class="" href="path_finding/Grid/containsNode.html">containsNode</a></span><span class="signature">(<wbr><span class="parameter" id="containsNode-param-node"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">node</span></span>)
                 <span class="returntype parameter">&#8594; bool</span>
             </span>
         </dt>
         <dd>
-            <p>Returns whether or not the <code>Node node</code> is a member of this <code>Graph</code>.</p>
+            <p>Returns whether or not the [Node] [node] is a member of this <code>Graph</code>.</p>
         </dd>
         <dt id="containsPoint" class="callable">
             <span class="name "><a class="" href="path_finding/Grid/containsPoint.html">containsPoint</a></span><span class="signature">(<wbr><span class="parameter" id="containsPoint-param-point"><span class="parameter-name">point</span></span>)
@@ -245,32 +246,58 @@
             </span>
         </dt>
         <dd>
-            <p>Returns whether or not there is a note in this Graph located at <code>point</code>.</p>
+            <p>Returns whether or not this <a class="" href="path_finding/Grid-class.html">Grid</a> contains a <a class="" href="path_finding/PointNode-class.html">PointNode</a> at <code>point</code>.</p>
         </dd>
         <dt id="distance" class="callable">
-            <span class="name "><a class="" href="path_finding/Grid/distance.html">distance</a></span><span class="signature">(<wbr><span class="parameter" id="distance-param-n1"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">n1</span></span>, <span class="parameter" id="distance-param-n2"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">n2</span></span>)
+            <span class="name "><a class="" href="path_finding/Grid/distance.html">distance</a></span><span class="signature">(<wbr><span class="parameter" id="distance-param-n1"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">n1</span></span>, <span class="parameter" id="distance-param-n2"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">n2</span></span>)
                 <span class="returntype parameter">&#8594; double</span>
             </span>
         </dt>
         <dd>
             <p>Returns the euclidean distance between <code>n1</code> and <code>n2</code>.</p>
         </dd>
+        <dt id="getExteriorCorners" class="callable">
+            <span class="name "><a class="" href="path_finding/Grid/getExteriorCorners.html">getExteriorCorners</a></span><span class="signature">(<wbr>)
+                <span class="returntype parameter">&#8594; List&lt;<a class="" href="path_finding/PointNode-class.html">PointNode</a>&gt;</span>
+            </span>
+        </dt>
+        <dd>
+            <p>Return a list of all the "exterior corners" of this <a class="" href="path_finding/Grid-class.html">Grid</a>.<a href="path_finding/Grid/getExteriorCorners.html">&hellip;</a>
+</p>
+        </dd>
+        <dt id="getExteriorCornersGraph" class="callable">
+            <span class="name "><a class="" href="path_finding/Grid/getExteriorCornersGraph.html">getExteriorCornersGraph</a></span><span class="signature">(<wbr>)
+                <span class="returntype parameter">&#8594; <a class="" href="path_finding/UndirectedPointGraph-class.html">UndirectedPointGraph</a></span>
+            </span>
+        </dt>
+        <dd>
+            <p>Construct an <a class="" href="path_finding/UndirectedPointGraph-class.html">UndirectedPointGraph</a> from this <a class="" href="path_finding/Grid-class.html">Grid</a>s exterior corners.<a href="path_finding/Grid/getExteriorCornersGraph.html">&hellip;</a>
+</p>
+        </dd>
         <dt id="getNeighbors" class="callable">
-            <span class="name "><a class="" href="path_finding/Grid/getNeighbors.html">getNeighbors</a></span><span class="signature">(<wbr><span class="parameter" id="getNeighbors-param-node"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">node</span></span>, {<span class="parameter" id="getNeighbors-param-onlyWalkable"><span class="type-annotation">bool</span> <span class="parameter-name">onlyWalkable</span>: <span class="default-value">true</span></span>})
-                <span class="returntype parameter">&#8594; List&lt;<a class="" href="path_finding/Node-class.html">Node</a>&gt;</span>
+            <span class="name "><a class="" href="path_finding/Grid/getNeighbors.html">getNeighbors</a></span><span class="signature">(<wbr><span class="parameter" id="getNeighbors-param-node"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">node</span></span>, {<span class="parameter" id="getNeighbors-param-onlyWalkable"><span class="type-annotation">bool</span> <span class="parameter-name">onlyWalkable</span>: <span class="default-value">true</span></span>})
+                <span class="returntype parameter">&#8594; List&lt;<a class="" href="path_finding/PointNode-class.html">PointNode</a>&gt;</span>
             </span>
         </dt>
         <dd>
             <p>Return a list of nodes that are the neighbors of <code>node</code>.<a href="path_finding/Grid/getNeighbors.html">&hellip;</a>
 </p>
         </dd>
-        <dt id="nodeFromPoint" class="callable">
-            <span class="name "><a class="" href="path_finding/Grid/nodeFromPoint.html">nodeFromPoint</a></span><span class="signature">(<wbr><span class="parameter" id="nodeFromPoint-param-point"><span class="parameter-name">point</span></span>)
-                <span class="returntype parameter">&#8594; <a class="" href="path_finding/Node-class.html">Node</a></span>
+        <dt id="heuristic" class="callable">
+            <span class="name "><a class="" href="path_finding/Grid/heuristic.html">heuristic</a></span><span class="signature">(<wbr><span class="parameter" id="heuristic-param-n1"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">n1</span></span>, <span class="parameter" id="heuristic-param-n2"><span class="type-annotation"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span> <span class="parameter-name">n2</span></span>)
+                <span class="returntype parameter">&#8594; double</span>
             </span>
         </dt>
         <dd>
-            <p>Returns the node of this graph found at <code>point</code>.<a href="path_finding/Grid/nodeFromPoint.html">&hellip;</a>
+            <p>Returns the heuristic distance estimate between <code>n1</code> and <code>n2</code>.</p>
+        </dd>
+        <dt id="nodeFromPoint" class="callable">
+            <span class="name "><a class="" href="path_finding/Grid/nodeFromPoint.html">nodeFromPoint</a></span><span class="signature">(<wbr><span class="parameter" id="nodeFromPoint-param-point"><span class="parameter-name">point</span></span>)
+                <span class="returntype parameter">&#8594; <a class="" href="path_finding/PointNode-class.html">PointNode</a></span>
+            </span>
+        </dt>
+        <dd>
+            <p>Returns the <a class="" href="path_finding/PointNode-class.html">PointNode</a> of this <a class="" href="path_finding/Grid-class.html">Grid</a> found at <code>point</code>.<a href="path_finding/Grid/nodeFromPoint.html">&hellip;</a>
 </p>
         </dd>
         <dt id="noSuchMethod" class="callable">
@@ -326,7 +353,10 @@ the original invocation.<a href="path_finding/Grid/noSuchMethod.html">&hellip;</
       <li><a class="" href="path_finding/Grid/containsNode.html">containsNode</a></li>
       <li><a class="" href="path_finding/Grid/containsPoint.html">containsPoint</a></li>
       <li><a class="" href="path_finding/Grid/distance.html">distance</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCorners.html">getExteriorCorners</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCornersGraph.html">getExteriorCornersGraph</a></li>
       <li><a class="" href="path_finding/Grid/getNeighbors.html">getNeighbors</a></li>
+      <li><a class="" href="path_finding/Grid/heuristic.html">heuristic</a></li>
       <li><a class="" href="path_finding/Grid/nodeFromPoint.html">nodeFromPoint</a></li>
       <li><a class="" href="path_finding/Grid/noSuchMethod.html">noSuchMethod</a></li>
       <li><a class="" href="path_finding/Grid/toString.html">toString</a></li>
@@ -341,7 +371,7 @@ the original invocation.<a href="path_finding/Grid/noSuchMethod.html">&hellip;</
         <div class="container">
             <p class="text-center">
                 <span class="no-break">
-                  path_finding 0.2.1
+                  path_finding 0.3.0
                 </span>
                 &bull;
                 <span class="no-break">

@@ -99,7 +99,10 @@
       <li><a class="" href="path_finding/Grid/containsNode.html">containsNode</a></li>
       <li><a class="" href="path_finding/Grid/containsPoint.html">containsPoint</a></li>
       <li><a class="" href="path_finding/Grid/distance.html">distance</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCorners.html">getExteriorCorners</a></li>
+      <li><a class="" href="path_finding/Grid/getExteriorCornersGraph.html">getExteriorCornersGraph</a></li>
       <li><a class="" href="path_finding/Grid/getNeighbors.html">getNeighbors</a></li>
+      <li><a class="" href="path_finding/Grid/heuristic.html">heuristic</a></li>
       <li><a class="" href="path_finding/Grid/nodeFromPoint.html">nodeFromPoint</a></li>
       <li><a class="" href="path_finding/Grid/noSuchMethod.html">noSuchMethod</a></li>
       <li><a class="" href="path_finding/Grid/toString.html">toString</a></li>
@@ -110,20 +113,20 @@
   <div class="col-xs-12 col-sm-9 col-md-8 main-content">
 
     <section class="multi-line-signature">
-        <span class="returntype"><a class="" href="path_finding/Node-class.html">Node</a></span>
+        <span class="returntype"><a class="" href="path_finding/PointNode-class.html">PointNode</a></span>
         <span class="name ">nodeFromPoint</span>(<wbr><span class="parameter" id="nodeFromPoint-param-point"><span class="parameter-name">point</span></span>)
     </section>
 
     <section class="desc markdown">
     
-          <p>Returns the node of this graph found at <code>point</code>.</p>
+          <p>Returns the <a class="" href="path_finding/PointNode-class.html">PointNode</a> of this <a class="" href="path_finding/Grid-class.html">Grid</a> found at <code>point</code>.</p>
 <p>Throws <code>ArgumentError</code> if there is no Node located at <code>point</code>.</p>
     
     </section>
 
     <section class="summary source-code" id="source">
       <h2><span>Source</span> </h2>
-      <pre><code class="prettyprint lang-dart">Node nodeFromPoint(Point point) {
+      <pre><code class="prettyprint lang-dart">PointNode nodeFromPoint(Point point) {
   if (!this.containsPoint(point)) {
     throw new ArgumentError(&apos;This Grid does not contain the point: $point&apos;);
   }
@@ -141,7 +144,7 @@
         <div class="container">
             <p class="text-center">
                 <span class="no-break">
-                  path_finding 0.2.1
+                  path_finding 0.3.0
                 </span>
                 &bull;
                 <span class="no-break">

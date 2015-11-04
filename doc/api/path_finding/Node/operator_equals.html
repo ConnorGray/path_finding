@@ -82,7 +82,6 @@
     
       <li class="section-title"><a href="path_finding/Node-class.html#instance-properties">Properties</a></li>
       <li><a class="" href="path_finding/Node/hashCode.html">hashCode</a></li>
-      <li><a class="" href="path_finding/Node/location.html">location</a></li>
       <li><a class="" href="path_finding/Node/runtimeType.html">runtimeType</a></li>
       <li><a class="" href="path_finding/Node/walkable.html">walkable</a></li>
     
@@ -103,7 +102,7 @@
 
     <section class="multi-line-signature">
         <span class="returntype">bool</span>
-        <span class="name ">operator ==</span>(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation"><a class="" href="path_finding/Node-class.html">Node</a></span> <span class="parameter-name">other</span></span>)
+        <span class="name ">operator ==</span>(<wbr><span class="parameter" id="==-param-other"><span class="parameter-name">other</span></span>)
     </section>
 
     <section class="desc markdown">
@@ -131,7 +130,7 @@ the <code>hashCode</code> method as well to maintain consistency.</p>
 
     <section class="summary source-code" id="source">
       <h2><span>Source</span> </h2>
-      <pre><code class="prettyprint lang-dart">bool operator ==(Node other) =&gt; this.location == other.location;</code></pre>
+      <pre><code class="prettyprint lang-dart">bool operator ==(other) =&gt; identical(this, other);</code></pre>
     </section>
 
   </div> <!-- /.main-content -->
@@ -144,7 +143,7 @@ the <code>hashCode</code> method as well to maintain consistency.</p>
         <div class="container">
             <p class="text-center">
                 <span class="no-break">
-                  path_finding 0.2.1
+                  path_finding 0.3.0
                 </span>
                 &bull;
                 <span class="no-break">
