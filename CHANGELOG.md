@@ -1,3 +1,6 @@
+## 0.3.0+1
+    * Updated README Examples
+    
 ## 0.3.0
     * Added PointNode class for Point based Graphs
     * Added a new graph, UndirectedPointGraph
