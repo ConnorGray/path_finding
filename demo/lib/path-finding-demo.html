@@ -1,0 +1,34 @@
+<link rel="import" href="../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_slider.html">
+
+<polymer-element name="path-finding-demo">
+  <template>
+    <style>
+     paper-button.colored {
+         background: #4285f4;
+         color: #fff;
+     }
+    </style>
+
+    <canvas id="stage" style="border: 1px solid black"
+            width="{{DISPLAY_WIDTH}}" height="{{DISPLAY_HEIGHT}}"></canvas>
+
+    <!-- <paper-button raised class="colored"
+    on-click="{{onTogglePlayingButtonPressed}}}">Start</paper-button>
+
+    <paper-button raised class="colored"
+    on-click="{{onShowNextMoveButtonPressed}}}"
+    disabled?="{{playing}}">Next</paper-button>
+    -->
+    <!-- <b>Steps: </b><span>{{steps}}</span>
+
+    <h5 style="margin: 17px 0 5px 0">Number of Disks</h5>
+    <paper-slider style="width: {{DISPLAY_WIDTH}}px;" pin snaps min="0" max="25"
+    value="{{numberOfDisks}}" step="1"></paper-slider> -->
+  </template>
+  <script type="application/dart" src="path-finding-demo.dart"></script>
+</polymer-element>
+
