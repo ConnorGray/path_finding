@@ -1,0 +1,18 @@
+name: path_finding_demo
+author: Connor Gray <connordbgray@gmail.com>
+homepage: https://connorgray.github.io/path_finding/demo/build/web
+version: 0.0.1
+dependencies:
+  browser: any
+  polymer: any
+  core_elements: any
+  paper_elements: any
+  stagexl: any
+  path_finding: ">=0.3.0 <4.0.0"
+transformers:
+  - polymer:
+      entry_points:
+        - web/index.html
+      js: true
+  - $dart2js:
+      commandLineOptions: [--show-package-warnings]
