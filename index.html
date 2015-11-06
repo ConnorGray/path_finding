@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Path finding by ConnorGray</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Path finding</h1>
+        <h2>A path finding library for Dart</h2>
+        <a href="https://github.com/ConnorGray/path_finding" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="path_finding" class="anchor" href="#path_finding" aria-hidden="true"><span class="octicon octicon-link"></span></a>path_finding</h1>
+
+<p>A pathfinding library for Dart
+Find it on pub at <a href="https://pub.dartlang.org/packages/path_finding">https://pub.dartlang.org/packages/path_finding</a></p>
+
+<p>To use it in your project add</p>
+
+<pre><code>path_finding: "&gt;=0.3.0 &lt;0.4.0"
+</code></pre>
+
+<p>to your pubspec.yaml under depencies.</p>
+
+<h1>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h1>
+
+<h2>
+<a id="a-finder" class="anchor" href="#a-finder" aria-hidden="true"><span class="octicon octicon-link"></span></a>A* Finder</h2>
+
+<div class="highlight highlight-source-dart"><pre><span class="pl-k">import</span> <span class="pl-s">'package:path_finding/path_finding.dart'</span>;
+<span class="pl-k">import</span> <span class="pl-s">'dart:math'</span> <span class="pl-k">show</span> Point;
+
+<span class="pl-k">void</span> main() {
+  <span class="pl-k">List</span><span class="pl-k">&lt;</span><span class="pl-k">List</span><span class="pl-k">&lt;</span><span class="pl-k">bool</span><span class="pl-k">&gt;&gt;</span> boolGrid <span class="pl-k">=</span> [
+    [<span class="pl-c1">true</span>,  <span class="pl-c1">false</span>, <span class="pl-c1">true</span>],
+    [<span class="pl-c1">true</span>,  <span class="pl-c1">true</span>,  <span class="pl-c1">true</span> ],
+    [<span class="pl-c1">true</span>,  <span class="pl-c1">false</span>, <span class="pl-c1">true</span> ]
+  ];
+
+  Grid grid <span class="pl-k">=</span> <span class="pl-k">new</span> Grid(boolGrid);
+  grid.diagonalMovement <span class="pl-k">=</span> DiagonalMovement.Never;
+
+  PointNode start <span class="pl-k">=</span> grid.nodeFromPoint(<span class="pl-k">new</span> Point(<span class="pl-c1">0</span>, <span class="pl-c1">0</span>));
+  PointNode goal <span class="pl-k">=</span> grid.nodeFromPoint(<span class="pl-k">new</span> Point(<span class="pl-c1">2</span>, <span class="pl-c1">2</span>));
+
+  AStarFinder aStarFinder <span class="pl-k">=</span> <span class="pl-k">new</span> AStarFinder(grid);
+
+  <span class="pl-k">List</span><span class="pl-k">&lt;</span>PointNode<span class="pl-k">&gt;</span> path <span class="pl-k">=</span> aStarFinder.pathFind(start, goal);
+
+  <span class="pl-k">for</span> (PointNode node <span class="pl-k">in</span> path) {
+    print(node.location);
+  }
+}</pre></div>
+
+<h2>
+<a id="dijkstra-finder" class="anchor" href="#dijkstra-finder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dijkstra Finder</h2>
+
+<div class="highlight highlight-source-dart"><pre><span class="pl-k">import</span> <span class="pl-s">'package:path_finding/path_finding.dart'</span>;
+<span class="pl-k">import</span> <span class="pl-s">'dart:math'</span> <span class="pl-k">show</span> Point;
+
+<span class="pl-k">void</span> main() {
+  <span class="pl-k">List</span><span class="pl-k">&lt;</span><span class="pl-k">List</span><span class="pl-k">&lt;</span><span class="pl-k">bool</span><span class="pl-k">&gt;&gt;</span> boolGrid <span class="pl-k">=</span> [
+    [<span class="pl-c1">true</span>,  <span class="pl-c1">false</span>, <span class="pl-c1">false</span>, <span class="pl-c1">true</span>],
+    [<span class="pl-c1">true</span>,  <span class="pl-c1">true</span>,  <span class="pl-c1">false</span>, <span class="pl-c1">true</span>],
+    [<span class="pl-c1">false</span>, <span class="pl-c1">true</span>,  <span class="pl-c1">true</span>,  <span class="pl-c1">true</span>]
+  ];
+
+  Grid grid <span class="pl-k">=</span> <span class="pl-k">new</span> Grid(boolGrid);
+  grid.diagonalMovement <span class="pl-k">=</span> DiagonalMovement.Never;
+
+  PointNode start <span class="pl-k">=</span> grid.nodeFromPoint(<span class="pl-k">new</span> Point(<span class="pl-c1">0</span>, <span class="pl-c1">0</span>));
+  PointNode goal <span class="pl-k">=</span> grid.nodeFromPoint(<span class="pl-k">new</span> Point(<span class="pl-c1">3</span>, <span class="pl-c1">0</span>));
+
+  DijkstraFinder dijkstraFinder <span class="pl-k">=</span> <span class="pl-k">new</span> DijkstraFinder(grid);
+
+  <span class="pl-k">List</span><span class="pl-k">&lt;</span>PointNode<span class="pl-k">&gt;</span> path <span class="pl-k">=</span> dijkstraFinder.pathFind(start, goal);
+
+  <span class="pl-k">for</span> (PointNode point <span class="pl-k">in</span> path) {
+    print(point.location);
+  }
+}</pre></div>
+
+<h2>
+<a id="undirectedpointgraph" class="anchor" href="#undirectedpointgraph" aria-hidden="true"><span class="octicon octicon-link"></span></a>UndirectedPointGraph</h2>
+
+<div class="highlight highlight-source-dart"><pre><span class="pl-k">import</span> <span class="pl-s">'package:path_finding/path_finding.dart'</span>;
+<span class="pl-k">import</span> <span class="pl-s">'dart:math'</span> <span class="pl-k">show</span> Point;
+
+<span class="pl-k">void</span> main() {
+  UndirectedPointGraph undirectedGraph <span class="pl-k">=</span> <span class="pl-k">new</span> UndirectedPointGraph();
+
+  PointNode A <span class="pl-k">=</span> <span class="pl-k">new</span> PointNode(<span class="pl-k">new</span> Point(<span class="pl-c1">0</span>, <span class="pl-c1">0</span>));
+  PointNode B <span class="pl-k">=</span> <span class="pl-k">new</span> PointNode(<span class="pl-k">new</span> Point(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>));
+  PointNode C <span class="pl-k">=</span> <span class="pl-k">new</span> PointNode(<span class="pl-k">new</span> Point(<span class="pl-c1">3</span>, <span class="pl-c1">2</span>));
+  PointNode D <span class="pl-k">=</span> <span class="pl-k">new</span> PointNode(<span class="pl-k">new</span> Point(<span class="pl-c1">2</span>, <span class="pl-c1">7</span>));
+  PointNode E <span class="pl-k">=</span> <span class="pl-k">new</span> PointNode(<span class="pl-k">new</span> Point(<span class="pl-c1">4</span>, <span class="pl-c1">5</span>));
+
+  undirectedGraph.addAdjacency(A, B);
+  undirectedGraph.addAdjacency(B, C);
+  undirectedGraph.addAdjacency(B, D);
+  undirectedGraph.addAdjacency(C, D);
+  undirectedGraph.addAdjacency(B, E);
+  undirectedGraph.addAdjacency(C, E);
+
+  AStarFinder aStarFinder <span class="pl-k">=</span> <span class="pl-k">new</span> AStarFinder(undirectedGraph);
+
+  <span class="pl-k">List</span><span class="pl-k">&lt;</span>PointNode<span class="pl-k">&gt;</span> path <span class="pl-k">=</span> aStarFinder.pathFind(A, E);
+
+  <span class="pl-k">for</span> (PointNode node <span class="pl-k">in</span> path) {
+    print(node.location);
+  }
+}</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/ConnorGray/path_finding/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/ConnorGray/path_finding/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/ConnorGray/path_finding"></a> is maintained by <a href="https://github.com/ConnorGray">ConnorGray</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
