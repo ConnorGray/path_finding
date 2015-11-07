@@ -1,5 +1,5 @@
 import 'dart:html' as html;
-import 'dart:math' show Random, Point;
+import 'dart:math' show Random, Point, pow;
 
 import 'package:stagexl/stagexl.dart' hide Point;
 import 'package:polymer/polymer.dart';
@@ -7,27 +7,29 @@ import 'package:path_finding/path_finding.dart';
 
 @CustomTag('path-finding-demo')
 class PathFindingDemoElement extends PolymerElement {
-  static final int WIDTH = 640;
-  static final int HEIGHT = 640;
-  static final int TILE_SIZE = 32;
-  static final int ROWS = 20;
-  static final int COLS = 20;
+  static final int WIDTH = 768;
+  static final int HEIGHT = 768;
+
+  int get TILE_SIZE => pow(2, this.tileSizeExponent);
+  int get ROWS => WIDTH ~/ TILE_SIZE;
+  int get COLS => HEIGHT ~/ TILE_SIZE;
 
   @observable final int DISPLAY_WIDTH = WIDTH;
   @observable final int DISPLAY_HEIGHT = HEIGHT;
 
   @observable String selectedAlgorithm = "aStar";
   @observable String selectedDiagonalMovement = "withOneObstruction";
-  @observable double randomSparseness = 0.7;
+  @observable double randomSparseness = 0.75;
+  @observable int tileSizeExponent = 5;
 
   Algorithm _algorithm = Algorithm.AStar;
   DiagonalMovement _diagonalMovement = DiagonalMovement.WithOneObstruction;
 
   final List<List<Tile>> _tileGrid = new List<List<Tile>>();
 
-  Point _startPoint = new Point(5, 10);
-  Point _goalPoint = new Point(15, 10);
-  Shape _pathLine = new Shape();
+  Point _startPoint;
+  Point _goalPoint;
+  Shape _pathLine;
 
   final random = new Random();
 
@@ -49,12 +51,16 @@ class PathFindingDemoElement extends PolymerElement {
     this.stage.onMouseUp.listen(this._onMouseUp);
     this.stage.onMouseMove.listen(this._onMouseMove);
 
-    this.stage.addChild(this._pathLine);
-
     _reset();
   }
 
   void _reset() {
+    this._tileGrid.clear();
+    this.stage.removeChildren();
+
+    this._startPoint = new Point(0, 0);
+    this._goalPoint = new Point(COLS - 1, ROWS - 1);
+
     for (int row = 0; row < ROWS; row++) {
       List<Tile> tileRow = new List<Tile>(COLS);
       this._tileGrid.add(tileRow);
@@ -71,9 +77,7 @@ class PathFindingDemoElement extends PolymerElement {
     }
   }
 
-  void onPathFindButtonPressed() {
-    this.stage.removeChild(this._pathLine);
-
+  void _drawPath() {
     List<List<bool>> boolGrid = new List<List<bool>>();
     for (int row = 0; row < ROWS; row++) {
       List<bool> boolRow = new List<bool>(COLS);
@@ -105,6 +109,10 @@ class PathFindingDemoElement extends PolymerElement {
 
     List<PointNode> path = finder.pathFind(startNode, goalNode); 
 
+    if (this.stage.children.contains(this._pathLine)) {
+      this.stage.removeChild(this._pathLine);
+    }
+
     this._pathLine = new Shape();
     _pathLine.graphics.beginPath();
     for (PointNode pointNode in path) {
@@ -117,7 +125,15 @@ class PathFindingDemoElement extends PolymerElement {
     this.stage.addChild(_pathLine);
   }
 
+  void onPathFindButtonPressed() {
+    _drawPath();
+  }
+
   void onRandomGridButtonPressed() {
+    if (this.stage.children.contains(this._pathLine)) {
+      this.stage.removeChild(this._pathLine);
+    }
+
     for (int row = 0; row < ROWS; row++) {
       for (int col = 0; col < COLS; col++) {
         TileType existingType = this._tileGrid[row][col].getType();
@@ -133,6 +149,8 @@ class PathFindingDemoElement extends PolymerElement {
         }
       }
     }
+
+    _drawPath();
   }
 
   void _onMouseDown(MouseEvent e) {
@@ -210,8 +228,12 @@ class PathFindingDemoElement extends PolymerElement {
     }
   }
 
+  void tileSizeExponentChanged() {
+    _reset();
+  }
+
   void _addTileAt(Point location, TileType type) {
-    Tile tile = new Tile(location, type);
+    Tile tile = new Tile(location, type, this.TILE_SIZE);
     this._tileGrid[location.y][location.x] = tile;
     this.stage.addChild(tile);
   }
@@ -220,14 +242,14 @@ class PathFindingDemoElement extends PolymerElement {
 class Tile extends Sprite {
   TileType _type;
   final Point location;
+  final int size;
 
   void setType(TileType newType) {
     this._type = newType;
     this.graphics.clear();
     this.graphics.beginPath();
     this.graphics
-      .rect(1, 1, PathFindingDemoElement.TILE_SIZE - 1,
-          PathFindingDemoElement.TILE_SIZE - 1);
+      .rect(1, 1, this.size - 1, this.size - 1);
     this.graphics.strokeColor(Color.Black, 1);
     switch (newType) {
       case TileType.Empty:
@@ -248,10 +270,10 @@ class Tile extends Sprite {
 
   TileType getType() => this._type;
 
-  Tile(this.location, TileType initialType) {
+  Tile(this.location, TileType initialType, this.size) {
     this.setType(initialType);
-    this.x = this.location.x * PathFindingDemoElement.TILE_SIZE;
-    this.y = this.location.y * PathFindingDemoElement.TILE_SIZE;
+    this.x = this.location.x * this.size;
+    this.y = this.location.y * this.size;
   }
 }
 
