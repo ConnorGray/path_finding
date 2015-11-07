@@ -1,0 +1,45 @@
+<link rel="import" href="../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../packages/paper_elements/paper_slider.html">
+
+<polymer-element name="towers-of-hanoi">
+  <template>
+    <style>
+     paper-button.colored {
+         background: #4285f4;
+         color: #fff;
+     }
+    </style>
+
+    <div class="row">
+      <div class="columns small-12">
+        <canvas id="stage" style="border: 1px solid black"
+                width="{{DISPLAY_WIDTH}}" height="{{DISPLAY_HEIGHT}}"></canvas>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="columns small-12">
+        <paper-button raised class="colored"
+                      on-click="{{onTogglePlayingButtonPressed}}}">Start</paper-button>
+
+        <paper-button raised class="colored"
+                      on-click="{{onShowNextMoveButtonPressed}}}"
+                      disabled?="{{playing}}">Next</paper-button>
+
+        <b>Steps: </b><span>{{steps}}</span>
+
+        <h5 style="margin: 17px 0 5px 0">Number of Disks</h5>
+        <paper-slider style="width: {{DISPLAY_WIDTH}}px;" pin snaps min="0" max="25"
+                      value="{{numberOfDisks}}" step="1"></paper-slider>
+        <h5 style="margin: 17px 0 5px 0">Moves per second</h5>
+        <paper-slider style="width: {{DISPLAY_WIDTH}}px;" pin snaps min="1" max="20"
+                      value="{{movesPerSecond}}" step="1"></paper-slider>
+      </div>
+    </div>
+  </template>
+  <script type="application/dart" src="towers-of-hanoi.dart"></script>
+</polymer-element>
+

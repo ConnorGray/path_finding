@@ -1,0 +1,29 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demos | Towers of Hanoi</title>
+    <link rel="stylesheet" href="/css/foundation.min.css">
+    <script src="/js/vendor/modernizr.js"></script>
+    <link rel="import" href="packages/towers_of_hanoi/towers-of-hanoi.html">
+  </head>
+  <body>
+
+    <!--#include virtual="/includes/topbar.html" -->
+    <br/>
+
+    <div class="row">
+      <div class="small-12 small-centered columns">
+        <towers-of-hanoi></towers-of-hanoi>
+      </div>
+    </div>
+    
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
