@@ -2,9 +2,9 @@
 
 A pathfinding library for Dart  
 
-Find it on pub at https://pub.dartlang.org/packages/path_finding.  
+Find it on [pub](https://pub.dartlang.org/packages/path_finding).  
 
-View the online demo at https://connorgray.github.io/path_finding/demo/build/web/
+View the online [demo](https://connorgray.github.io/path_finding/demo/build/web/).
 
 To use it in your project add
 ```
