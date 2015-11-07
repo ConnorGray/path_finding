@@ -1,6 +1,6 @@
 # path_finding
 
-A pathfinding library for Dart  
+A pathfinding library for Dart.
 
 Find it on [pub](https://pub.dartlang.org/packages/path_finding).  
 
