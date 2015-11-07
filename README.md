@@ -1,12 +1,16 @@
 # path_finding
-A pathfinding library for Dart
-Find it on pub at https://pub.dartlang.org/packages/path_finding
+
+A pathfinding library for Dart  
+
+Find it on pub at https://pub.dartlang.org/packages/path_finding.  
+
+View the online demo at https://connorgray.github.io/path_finding/demo/build/web/
 
 To use it in your project add
 ```
 path_finding: ">=0.3.0 <0.4.0"
 ```
-to your pubspec.yaml under depencies.
+to your pubspec.yaml depencies.
 
 # Examples
 
