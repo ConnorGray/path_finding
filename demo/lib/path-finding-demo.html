@@ -3,6 +3,8 @@
 <link rel="import" href="../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../../packages/paper_elements/paper_button.html">
 <link rel="import" href="../../packages/paper_elements/paper_slider.html">
+<link rel="import" href="../../packages/paper_elements/paper_radio_group.html">
+<link rel="import" href="../../packages/paper_elements/paper_radio_button.html">
 
 <polymer-element name="path-finding-demo">
   <template>
@@ -13,13 +15,31 @@
      }
     </style>
 
-    <canvas id="stage" style="border: 1px solid black"
-            width="{{DISPLAY_WIDTH}}" height="{{DISPLAY_HEIGHT}}"></canvas>
+    <div>
+      <canvas id="stage" style="border: 1px solid black"
+              width="{{DISPLAY_WIDTH}}" height="{{DISPLAY_HEIGHT}}"></canvas>
+    </div>
+
+    <div>
+      <paper-button raised class="colored"
+                    on-click="{{onPathFindButtonPressed}}}">Path Find</paper-button>
+    </div>
+
+    <paper-radio-group selected="{{selectedAlgorithm}}">
+      <paper-radio-button name="aStar" label="A*"></paper-radio-button>
+      <paper-radio-button name="dijkstra" label="Dijkstra"></paper-radio-button>
+    </paper-radio-group>
+
+    <paper-radio-group selected="{{selectedDiagonalMovement}}">
+      <paper-radio-button name="always" label="Always"></paper-radio-button>
+      <paper-radio-button name="never" label="Never"></paper-radio-button>
+      <paper-radio-button name="withOneObstruction" label="With One Obstruction">
+      </paper-radio-button>
+      <paper-radio-button name="withNoObstructions" label="With No Obstructions">
+      </paper-radio-button>
+    </paper-radio-group>
 
     <!-- <paper-button raised class="colored"
-    on-click="{{onTogglePlayingButtonPressed}}}">Start</paper-button>
-
-    <paper-button raised class="colored"
     on-click="{{onShowNextMoveButtonPressed}}}"
     disabled?="{{playing}}">Next</paper-button>
     -->
