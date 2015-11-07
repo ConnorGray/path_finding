@@ -23,31 +23,33 @@
     <div>
       <paper-button raised class="colored"
                     on-click="{{onPathFindButtonPressed}}}">Path Find</paper-button>
+      <paper-button raised class="colored"
+                    on-click="{{onRandomGridButtonPressed}}}">Random Grid</paper-button>
+      <span>Sparseness: </span>
+      <paper-slider style="min-width: 300px;" pin snaps min="0" max="1"
+                    value="{{randomSparseness}}" step="0.05"></paper-slider>
     </div>
 
-    <paper-radio-group selected="{{selectedAlgorithm}}">
-      <paper-radio-button name="aStar" label="A*"></paper-radio-button>
-      <paper-radio-button name="dijkstra" label="Dijkstra"></paper-radio-button>
-    </paper-radio-group>
+    <h5 style="margin: 17px 0 5px 0">Search Algorithm</h5>
+    <div>
+      <paper-radio-group selected="{{selectedAlgorithm}}">
+        <paper-radio-button name="aStar" label="A*"></paper-radio-button>
+        <paper-radio-button name="dijkstra" label="Dijkstra"></paper-radio-button>
+      </paper-radio-group>
+    </div>
 
-    <paper-radio-group selected="{{selectedDiagonalMovement}}">
-      <paper-radio-button name="always" label="Always"></paper-radio-button>
-      <paper-radio-button name="never" label="Never"></paper-radio-button>
-      <paper-radio-button name="withOneObstruction" label="With One Obstruction">
-      </paper-radio-button>
-      <paper-radio-button name="withNoObstructions" label="With No Obstructions">
-      </paper-radio-button>
-    </paper-radio-group>
+    <h5 style="margin: 17px 0 5px 0">Diagonal Movement Rule</h5>
+    <div>
+      <paper-radio-group selected="{{selectedDiagonalMovement}}">
+        <paper-radio-button name="always" label="Always"></paper-radio-button>
+        <paper-radio-button name="never" label="Never"></paper-radio-button>
+        <paper-radio-button name="withOneObstruction" label="With One Obstruction">
+        </paper-radio-button>
+        <paper-radio-button name="withNoObstructions" label="With No Obstructions">
+        </paper-radio-button>
+      </paper-radio-group>
+    </div>
 
-    <!-- <paper-button raised class="colored"
-    on-click="{{onShowNextMoveButtonPressed}}}"
-    disabled?="{{playing}}">Next</paper-button>
-    -->
-    <!-- <b>Steps: </b><span>{{steps}}</span>
-
-    <h5 style="margin: 17px 0 5px 0">Number of Disks</h5>
-    <paper-slider style="width: {{DISPLAY_WIDTH}}px;" pin snaps min="0" max="25"
-    value="{{numberOfDisks}}" step="1"></paper-slider> -->
   </template>
   <script type="application/dart" src="path-finding-demo.dart"></script>
 </polymer-element>

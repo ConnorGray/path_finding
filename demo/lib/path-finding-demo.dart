@@ -18,6 +18,7 @@ class PathFindingDemoElement extends PolymerElement {
 
   @observable String selectedAlgorithm = "aStar";
   @observable String selectedDiagonalMovement = "withOneObstruction";
+  @observable double randomSparseness = 0.7;
 
   Algorithm _algorithm = Algorithm.AStar;
   DiagonalMovement _diagonalMovement = DiagonalMovement.WithOneObstruction;
@@ -116,6 +117,24 @@ class PathFindingDemoElement extends PolymerElement {
     this.stage.addChild(_pathLine);
   }
 
+  void onRandomGridButtonPressed() {
+    for (int row = 0; row < ROWS; row++) {
+      for (int col = 0; col < COLS; col++) {
+        TileType existingType = this._tileGrid[row][col].getType();
+        if (existingType == TileType.Wall) {
+          this._tileGrid[row][col].setType(TileType.Empty);
+        } else if (existingType != TileType.Empty) {
+          continue; // It must be a Start or Goal, which we don't want to overwrite.
+        }
+
+        double chance = this.random.nextDouble();
+        if (chance > this.randomSparseness) {
+          this._tileGrid[row][col].setType(TileType.Wall);
+        }
+      }
+    }
+  }
+
   void _onMouseDown(MouseEvent e) {
     this._mouseIsDown = true;
     if (e.target is Tile) {
@@ -148,21 +167,16 @@ class PathFindingDemoElement extends PolymerElement {
             this._tileGrid[row][col].getType() != TileType.Goal) {
           this._tileGrid[row][col].setType(this._tileDrawingType);
         }
-      } else if (this._tileDrawingType == TileType.Start) {
-        Point newStart = new Point(col, row);
-        if (newStart != this._startPoint && newStart != this._goalPoint) {
-          this._tileGrid[this._startPoint.y][this._startPoint.x]
-            .setType(TileType.Empty);
-          this._startPoint = newStart;
-          this._tileGrid[newStart.y][newStart.x].setType(TileType.Start);
-        }
-      } else if (this._tileDrawingType == TileType.Goal) {
-        Point newGoal = new Point(col, row);
-        if (newGoal != this._goalPoint && newGoal != this._startPoint) {
-          this._tileGrid[this._goalPoint.y][this._goalPoint.x]
-            .setType(TileType.Empty);
-          this._goalPoint = newGoal;
-          this._tileGrid[newGoal.y][newGoal.x].setType(TileType.Goal);
+      } else {
+        Point newPoint = new Point(col, row);
+        Point oldPoint = this._tileDrawingType == TileType.Start
+          ? this._startPoint : this._goalPoint;
+
+        if (this._tileGrid[newPoint.y][newPoint.x].getType() == TileType.Empty) {
+          this._tileGrid[oldPoint.y][oldPoint.x].setType(TileType.Empty);
+          oldPoint == this._startPoint ?
+            this._startPoint = newPoint : this._goalPoint = newPoint;
+          this._tileGrid[newPoint.y][newPoint.x].setType(this._tileDrawingType);
         }
       }
     }
@@ -177,7 +191,6 @@ class PathFindingDemoElement extends PolymerElement {
         this._algorithm = Algorithm.Dijkstra;
         break;
     }
-    print(this._algorithm);
   }
 
   void selectedDiagonalMovementChanged() {
@@ -195,7 +208,6 @@ class PathFindingDemoElement extends PolymerElement {
         this._diagonalMovement = DiagonalMovement.WithNoObstructions;
         break;
     }
-    print(this._diagonalMovement);
   }
 
   void _addTileAt(Point location, TileType type) {
